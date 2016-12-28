@@ -38,7 +38,7 @@ import a21200800isec.cmcticket2.Model.Singleton;
 public class Principal extends FragmentActivity implements OnMapReadyCallback{
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
-    //GoogleMap mapa;
+    //static GoogleMap mapa;
     MyMapFragment sMapFragment;
     ArrayList<String> sideMenuText;
     ListView mSideListView;
@@ -57,8 +57,9 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback{
         //singleton = new Singleton();
         setLayout();
         setControllers();
-        singleton = new Singleton(this);
         sMapFragment = new MyMapFragment();
+        singleton = new Singleton(this);
+
 
         sMapFragment.getMapAsync(this);
 
@@ -102,13 +103,14 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback{
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap mapa = googleMap;
+        this.singleton.setMap(googleMap);
         Log.d("LAT",String.valueOf(singleton.getCurrentLatitude()));
         Log.d("LON",String.valueOf(singleton.getCurrentLongitude()));
         LatLng local = new LatLng(singleton.getCurrentLatitude(), singleton.getCurrentLongitude());
-        mapa.addMarker(new MarkerOptions().position(local).title("HERE"));
-        mapa.moveCamera(CameraUpdateFactory.newLatLng(local));
+        this.singleton.getMap().addMarker(new MarkerOptions().position(local).title("HERE"));
+        this.singleton.getMap().moveCamera(CameraUpdateFactory.newLatLng(local));
     }
+
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override

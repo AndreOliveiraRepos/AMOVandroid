@@ -20,6 +20,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.List;
 
+import a21200800isec.cmcticket2.Model.Singleton;
+
 import static android.content.Context.LOCATION_SERVICE;
 import static android.content.Context.SENSOR_SERVICE;
 
@@ -34,16 +36,21 @@ public class GPSTracker implements LocationListener {
     private GoogleApiClient client;
     private double latitude;
     private double longitude;
+    private Singleton singleton;
 
-    public GPSTracker(Context context) {
+    public GPSTracker(Context context, Singleton s) {
         this.context = context;
         setSensors();
+        this.singleton = s;
     }
 
     @Override
     public void onLocationChanged(Location location) {
         Log.d("LAT",String.valueOf(location.getLatitude()));
         Log.d("LON",String.valueOf(location.getLongitude()));
+        singleton.setCurretLatitude(location.getLatitude());
+        singleton.setCurretLongitude(location.getLongitude());
+        singleton.refreshMap();
 
     }
 

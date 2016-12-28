@@ -21,6 +21,10 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 import java.util.List;
@@ -45,14 +49,17 @@ public class Singleton  {
     private double lon;
     private Context context;
     private GPSTracker tracker;
+    private GoogleMap mapa;
 
     public Singleton(Context context) {
         this.context = context;
-        this.tracker = new GPSTracker(context);
+        this.tracker = new GPSTracker(context,this);
         this.tracker.setSensors();
         this.tracker.startTracker();
         this.lat = this.tracker.getLatitude();
         this.lon = this.tracker.getLongitude();
+
+        //this.mapa ;
     }
     public static Singleton getInstance(){
         /*if(singletonInstance == null)
@@ -79,5 +86,15 @@ public class Singleton  {
         return this.lon;
     }
 
+    public void refreshMap(){
+        mapa.clear();
+        LatLng local = new LatLng(this.getCurrentLatitude(),this.getCurrentLongitude());
+        mapa.addMarker(new MarkerOptions().position(local).title("HERE"));
+        mapa.moveCamera(CameraUpdateFactory.newLatLng(local));
+    }
 
+    public GoogleMap getMap(){return this.mapa;}
+    public void setMap(GoogleMap m){this.mapa = m;}
+    public void setCurretLatitude(double l){this.lat = l;}
+    public void setCurretLongitude(double l){this.lon = l;}
 }
