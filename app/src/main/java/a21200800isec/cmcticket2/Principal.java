@@ -3,14 +3,19 @@ package a21200800isec.cmcticket2;
 import android.*;
 import android.app.Activity;
 
+
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+/*import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager;*/
+
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
@@ -18,16 +23,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
 import a21200800isec.cmcticket2.Model.Singleton;
 
-public class Principal extends FragmentActivity {
+public class Principal extends FragmentActivity implements OnMapReadyCallback{
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
-    MapFragment mapa;
+    //GoogleMap mapa;
+    MyMapFragment sMapFragment;
     ArrayList<String> sideMenuText;
     ListView mSideListView;
     DrawerLayout drawerLayout;
@@ -46,20 +58,20 @@ public class Principal extends FragmentActivity {
         setLayout();
         setControllers();
         singleton = new Singleton(this);
-        singleton.startSensor();
-        mapa = new MapFragment();
-        //
-        mapa.setLat(singleton.getCurrentLatitude());
-        mapa.setLon(singleton.getCurrentLongitude());
-        fragmentManager = getSupportFragmentManager();
-        /*SupportMapFragment mapFragment = (SupportMapFragment)
-                .findFragmentById(R.id.map);*/
-        //mapFragment.getMapAsync(this);
+        sMapFragment = new MyMapFragment();
+
+        sMapFragment.getMapAsync(this);
+
+
+        fragmentManager = this.getFragmentManager();
+
         transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.fragContainer,mapa,"Mapa_tag");
+
+        transaction.add(R.id.fragContainer,sMapFragment,"Mapa_tag");
+
         transaction.commit();
-
-
+        //mapa.getMapAsync();
+        //if(transaction.(MapFragment)){}
 
     }
 
@@ -87,6 +99,17 @@ public class Principal extends FragmentActivity {
                    .commit();
         * */
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        GoogleMap mapa = googleMap;
+        Log.d("LAT",String.valueOf(singleton.getCurrentLatitude()));
+        Log.d("LON",String.valueOf(singleton.getCurrentLongitude()));
+        LatLng local = new LatLng(singleton.getCurrentLatitude(), singleton.getCurrentLongitude());
+        mapa.addMarker(new MarkerOptions().position(local).title("HERE"));
+        mapa.moveCamera(CameraUpdateFactory.newLatLng(local));
+    }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
