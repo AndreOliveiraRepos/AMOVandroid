@@ -1,8 +1,9 @@
-package layout;
+package a21200800isec.cmcticket2;
 
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.net.Uri;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,11 +28,13 @@ import java.util.ArrayList;
 
 import a21200800isec.cmcticket2.Model.Model;
 import a21200800isec.cmcticket2.R;
+import layout.MyMapFragment;
+import layout.TicketForm;
 
-public class Principal extends FragmentActivity implements OnMapReadyCallback{
+public class Principal extends FragmentActivity implements OnMapReadyCallback, TicketForm.OnFragmentInteractionListener {
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
-    Fragment ticketForm;
+
     MyMapFragment sMapFragment;
     ArrayList<String> sideMenuText;
     ListView mSideListView;
@@ -90,6 +95,19 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback{
         LatLng local = new LatLng(model.getCurrentLatitude(), model.getCurrentLongitude());
         this.model.getMap().addMarker(new MarkerOptions().position(local).title("HERE"));
         this.model.getMap().moveCamera(CameraUpdateFactory.newLatLng(local));
+        ImageButton btn = ((ImageButton)findViewById(R.id.writeNewTicket));
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((LinearLayout)findViewById(R.id.overlay)).setVisibility(View.INVISIBLE);
+                changeFragment();
+            }
+        });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Log.d("entrou","aqui");
     }
 
 
@@ -101,53 +119,31 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback{
         }
     }
 
-    private void changeFragment(Fragment frag, boolean saveInBackstack, boolean animate) {
-        /*String backStateName = ((Object) frag).getClass().getName();
+    private void changeFragment() {
+        /*ArticleFragment newFragment = new ArticleFragment();
+        Bundle args = new Bundle();
+        args.putInt(ArticleFragment.ARG_POSITION, position);
+        newFragment.setArguments(args);*/
+        TicketForm ticketForm= new TicketForm();
 
-        try {
-            fragmentManager = this.getFragmentManager();
-            boolean fragmentPopped = fragmentManager.popBackStackImmediate(backStateName, 0);
+        transaction = fragmentManager.beginTransaction();
 
-            if (!fragmentPopped && fragmentManager.findFragmentByTag(backStateName) == null) {
-                //fragment not in back stack, create it.
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-                if (animate) {
-                    //Log.d(TAG, "Change Fragment: animate");
-                   // transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right);
-                }
+        transaction.replace(R.id.fragContainer, ticketForm);
+        //transaction.addToBackStack(null);
 
-                transaction.replace(R.id.fragContainer, frag, backStateName);
 
-                if (saveInBackstack) {
-                    //Log.d(TAG, "Change Fragment: addToBackTack " + backStateName);
-                    transaction.addToBackStack(backStateName);
-                }/* else {
-                    Log.d(TAG, "Change Fragment: NO addToBackTack");
-                }*/
-
-                /*transaction.commit();
-            } else {
-                // custom effect if fragment is already instanciated
-            }
-        } catch (IllegalStateException exception) {
-            Log.w("e", "Unable to commit fragment, could be activity as been killed in background. " + exception.toString());
-        }*/
+        transaction.commit();
     }
 
 
-    public void onClick(View v) {
-        //TextView txt2 = (TextView)findViewById(R.id.text2);
-        //txt2.setText("teste");
-        //changeFragment(ticketForm,false,false);
 
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
         sMapFragment.getMapAsync(this);
-        fragmentManager = this.getFragmentManager();
+        fragmentManager = this.getSupportFragmentManager();
 
         transaction = fragmentManager.beginTransaction();
 
@@ -161,5 +157,11 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback{
     protected void onPause() {
         super.onPause();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //kill app our change to map
     }
 }

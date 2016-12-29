@@ -5,7 +5,7 @@
     android:id="@+id/side_menu_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="layout.Principal">
+    tools:context=".Principal">
     <!-- The main content view -->
 
     <FrameLayout
@@ -36,26 +36,55 @@
 
 
         </FrameLayout>
-
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="128dp"
-            android:id="@+id/buttonContainer"
-            android:layout_gravity="bottom">
+            android:layout_height="match_parent"
+            android:id="@+id/overlay">
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                map:srcCompat="@android:drawable/ic_menu_add"
-                android:id="@+id/writeNewTicket"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentEnd="false"
-                android:minWidth="150dp"
-                android:backgroundTint="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color" />
-        </RelativeLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.35"></LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.75">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"></LinearLayout>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:id="@+id/writeNewTicket"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="false"
+                        android:layout_alignParentEnd="false"
+                        android:minWidth="150dp"
+                        android:layout_weight="1"
+
+                        android:background="@color/colorPrimary"
+                        map:srcCompat="@android:drawable/ic_menu_add" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
     </FrameLayout>
 
     <!--side container-->
