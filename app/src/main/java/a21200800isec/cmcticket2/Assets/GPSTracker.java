@@ -20,7 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.List;
 
-import a21200800isec.cmcticket2.Model.Singleton;
+import a21200800isec.cmcticket2.Model.Model;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static android.content.Context.SENSOR_SERVICE;
@@ -36,21 +36,21 @@ public class GPSTracker implements LocationListener {
     private GoogleApiClient client;
     private double latitude;
     private double longitude;
-    private Singleton singleton;
+    private Model model;
 
-    public GPSTracker(Context context, Singleton s) {
+    public GPSTracker(Context context, Model s) {
         this.context = context;
         setSensors();
-        this.singleton = s;
+        this.model = s;
     }
 
     @Override
     public void onLocationChanged(Location location) {
         Log.d("LAT",String.valueOf(location.getLatitude()));
         Log.d("LON",String.valueOf(location.getLongitude()));
-        singleton.setCurretLatitude(location.getLatitude());
-        singleton.setCurretLongitude(location.getLongitude());
-        singleton.refreshMap();
+        model.setCurretLatitude(location.getLatitude());
+        model.setCurretLongitude(location.getLongitude());
+        model.refreshMap();
 
     }
 
@@ -61,7 +61,11 @@ public class GPSTracker implements LocationListener {
 
     @Override
     public void onProviderEnabled(String s) {
+        if (s == locationManager.NETWORK_PROVIDER ){
+            //Log.d("")
+        }else if(s == locationManager.GPS_PROVIDER){
 
+        }
     }
 
     @Override
@@ -152,7 +156,7 @@ public class GPSTracker implements LocationListener {
 
         if(location!= null)
             this.longitude = this.location.getLongitude();
-        return this.location.getLongitude();
+        return this.longitude;
     }
 
 }
