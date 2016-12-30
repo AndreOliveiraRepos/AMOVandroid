@@ -11,15 +11,18 @@ public class User {
     private String Email;
     private String PhoneNumber;
     private String Location;
+    private boolean login;
+    private String password;
     //socket set
 
-    public User(String userName, String authToken, String Email, String PhoneNumber) {
-        this.userName = userName;
-        this.authToken = authToken;
+    public User() {
+        this.userName = "";
+        this.authToken = "";
         this.requestJSON = "";
-        this.Email = Email;
-        this.PhoneNumber = PhoneNumber;
+        this.Email = "";
+        this.PhoneNumber = "";
         this.Location = "";
+        this.login = false;
     }
 
     public String getUserName() {
@@ -70,7 +73,14 @@ public class User {
         this.Location = Location;
     }
 
-    public void sendRequest(){}
+    public void setLogin(boolean b){this.login = b;}
 
+    public boolean isLogin(){return this.login;}
+
+    public String getPassword(){
+        return this.password;
+    }
+
+    public void setPassword(String p){this.password = p;}
 
 }

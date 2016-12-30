@@ -35,7 +35,7 @@ public class Model {
         this.tracker.startTracker();
         this.lat = this.tracker.getLatitude();
         this.lon = this.tracker.getLongitude();
-
+        this.user = new User();
         //this.mapa ;
     }
     /*public static Model getInstance(){
@@ -47,7 +47,9 @@ public class Model {
     }*/
 
     public void setUser(){}
-    public void getUser(){}
+    public User getUser(){
+        return this.user;
+    }
     public void setTicket(){}
     public void getTicket(){}
     public void sendTicket(){}

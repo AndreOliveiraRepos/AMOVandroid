@@ -24,14 +24,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
+import a21200800isec.cmcticket2.Assets.HttpClient;
 import a21200800isec.cmcticket2.Model.Model;
 import a21200800isec.cmcticket2.R;
 import layout.MyMapFragment;
 import layout.TicketForm;
+import layout.loginFragment;
 
-public class Principal extends FragmentActivity implements OnMapReadyCallback, TicketForm.OnFragmentInteractionListener {
+public class Principal extends FragmentActivity implements OnMapReadyCallback, OnFragmentInteractionListener {
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
 
@@ -78,14 +81,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, T
         mSideListView.setOnItemClickListener(new DrawerItemClickListener());
 
     }
-    public void switchFragment(){
-        /*
-         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                   .replace(R.id.content_frame, fragment)
-                   .commit();
-        * */
-    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -106,8 +102,8 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, T
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d("entrou","aqui");
+    public void onFragmentMessage(String TAG, Object data) {
+        Log.d("Entered here","OK!");
     }
 
 
@@ -125,11 +121,13 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, T
         args.putInt(ArticleFragment.ARG_POSITION, position);
         newFragment.setArguments(args);*/
         TicketForm ticketForm= new TicketForm();
+        loginFragment loginFrag = new loginFragment();
 
         transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragContainer, loginFrag);
 
 
-        transaction.replace(R.id.fragContainer, ticketForm);
+        //transaction.replace(R.id.fragContainer, ticketForm);
         //transaction.addToBackStack(null);
 
 
@@ -150,6 +148,8 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, T
         transaction.replace(R.id.fragContainer,sMapFragment);
 
         transaction.commit();
+        /*HttpClient httpClient = new HttpClient(this.model);
+        httpClient.execute("/token" , HttpClient.RequestType.POST.toString());*/
 
     }
 
@@ -164,4 +164,6 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, T
         super.onBackPressed();
         //kill app our change to map
     }
+
+
 }
