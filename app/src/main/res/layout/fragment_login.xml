@@ -85,8 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
-            android:alpha="255"
-            android:backgroundTint="@color/cast_expanded_controller_text_color"
+            android:alpha="2"
+            android:backgroundTint="@android:color/white"
             android:background="@android:drawable/screen_background_light_transparent">
 
             <TextView
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView"
-                android:textColor="@color/cast_expanded_controller_text_color"
+                android:textColor="@android:color/white"
                 android:layout_margin="10dp"
                 android:paddingLeft="10dp" />
 
@@ -106,8 +106,8 @@
                 android:id="@+id/txtusername"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/cast_expanded_controller_actionbar_bg_gradient_light"
-                android:backgroundTint="@color/cast_expanded_controller_text_color"
+
+                android:backgroundTint="@android:color/white"
                 android:paddingLeft="10dp" />
 
             <TextView
@@ -117,7 +117,7 @@
                 android:id="@+id/textView2"
                 android:layout_margin="10dp"
                 android:alpha="255"
-                android:textColor="@color/cast_expanded_controller_text_color"
+                android:textColor="@android:color/white"
                 android:paddingLeft="10dp" />
 
             <EditText
@@ -128,8 +128,7 @@
                 android:id="@+id/txtpassword"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/cast_expanded_controller_actionbar_bg_gradient_light"
-                android:backgroundTint="@color/cast_expanded_controller_text_color"
+                android:backgroundTint="@android:color/white"
                 android:paddingLeft="10dp" />
 
             <TextView
@@ -137,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/cfpwdView"
-                android:textColor="@color/cast_expanded_controller_text_color"
+                android:textColor="@android:color/white"
                 android:paddingLeft="10dp"
                 android:layout_margin="10dp"
                 android:visibility="invisible" />
@@ -148,8 +147,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/confPassText"
-                android:background="@drawable/cast_expanded_controller_actionbar_bg_gradient_light"
-                android:backgroundTint="@color/cast_expanded_controller_text_color"
+
+                android:backgroundTint="@android:color/white"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:paddingLeft="10dp"

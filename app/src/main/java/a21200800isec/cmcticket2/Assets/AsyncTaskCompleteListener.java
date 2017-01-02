@@ -5,5 +5,5 @@ package a21200800isec.cmcticket2.Assets;
  */
 
 public interface AsyncTaskCompleteListener {
-    public void onTaskComplete(boolean result);
+    void onTaskComplete(boolean result);
 }

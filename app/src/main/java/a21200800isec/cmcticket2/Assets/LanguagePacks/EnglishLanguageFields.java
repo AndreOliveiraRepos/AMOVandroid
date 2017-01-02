@@ -1,4 +1,4 @@
-package a21200800isec.cmcticket2.Assets.Languages;
+package a21200800isec.cmcticket2.Assets.LanguagePacks;
 
 /**
  * Created by red_f on 02/01/2017.
@@ -22,6 +22,4 @@ public class EnglishLanguageFields {
     //Notificacao ticket
     public static String EnviarTicket = "Send ticket";
     public static String EnviadoTicket = "Ticket sent!";
-
-    //envio dados
 }

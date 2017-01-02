@@ -1,19 +1,16 @@
 package a21200800isec.cmcticket2.Model;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
 import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
 import a21200800isec.cmcticket2.Assets.GPSTracker;
-import a21200800isec.cmcticket2.Assets.HttpClient;
 import a21200800isec.cmcticket2.Assets.HttpClientTasks.LoginTask;
 import a21200800isec.cmcticket2.Assets.HttpClientTasks.SendTicketTask;
 import a21200800isec.cmcticket2.Assets.Ticket;
@@ -33,7 +30,7 @@ public class Model{
     private Context context;
     private GPSTracker tracker;
     private GoogleMap mapa;
-    private HttpClient httpClient;
+
 
     private Model() {
         //this.context = context;

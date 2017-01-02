@@ -45,7 +45,7 @@ public class TicketForm extends Fragment implements AsyncTaskCompleteListener {
 
     public TicketForm() {
         // Required empty public constructor
-        this.model = model.getInstance();
+        this.model = Model.getInstance();
     }
 
 

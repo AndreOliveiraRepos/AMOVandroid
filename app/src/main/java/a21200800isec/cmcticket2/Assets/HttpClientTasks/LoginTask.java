@@ -16,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
-import a21200800isec.cmcticket2.Assets.HttpClient;
 import a21200800isec.cmcticket2.Model.Model;
 
 /**
@@ -41,7 +40,7 @@ public class LoginTask extends AsyncTask<Void, String, Boolean> {
 
     public LoginTask(AsyncTaskCompleteListener l)
     {
-        this.model = model.getInstance();
+        this.model = Model.getInstance();
         this.mListener = l;
         this.loginParameters = "username="+this.model.getUser().getUserName()+"&password="+this.model.getUser().getPassword()+"&grant_type=password";
     }

@@ -2,7 +2,6 @@ package layout;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,11 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-import com.google.android.gms.vision.text.Line;
-import com.google.android.gms.vision.text.Text;
-
 import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
-import a21200800isec.cmcticket2.Assets.HttpClient;
 import a21200800isec.cmcticket2.Model.Model;
 import a21200800isec.cmcticket2.OnFragmentInteractionListener;
 import a21200800isec.cmcticket2.R;
@@ -91,7 +86,7 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         formMode = 1;
-        model = model.getInstance();
+        model = Model.getInstance();
     }
 
     @Override
@@ -132,11 +127,11 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
         btnRegister = ((Button)getView().findViewById(R.id.btnRegister));
         errorView = ((TextView) getView().findViewById(R.id.errorView));
         if(this.formMode == 1){
-            ((LinearLayout)getView().findViewById(R.id.overlayLoginContainer)).setVisibility(View.INVISIBLE);
+            getView().findViewById(R.id.overlayLoginContainer).setVisibility(View.INVISIBLE);
         }else{
-            ((LinearLayout)getView().findViewById(R.id.overlayLoginContainer)).setVisibility(View.VISIBLE);
-            ((TextView)getView().findViewById(R.id.confPassText)).setVisibility(View.INVISIBLE);
-            ((TextView)getView().findViewById(R.id.cfpwdView)).setVisibility(View.INVISIBLE);
+            getView().findViewById(R.id.overlayLoginContainer).setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.confPassText).setVisibility(View.INVISIBLE);
+            getView().findViewById(R.id.cfpwdView).setVisibility(View.INVISIBLE);
         }
     }
     private void setControllers(){
@@ -147,8 +142,8 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
                     Log.d("FAZ ", "Click");
                     if(formMode == 1) {
                         setFormMode(2);
-                        ((LinearLayout) getView().findViewById(R.id.overlayLoginContainer)).setVisibility(View.VISIBLE);
-                        ((FrameLayout) getView().findViewById(R.id.logoLayout)).setVisibility(View.INVISIBLE);
+                        getView().findViewById(R.id.overlayLoginContainer).setVisibility(View.VISIBLE);
+                        getView().findViewById(R.id.logoLayout).setVisibility(View.INVISIBLE);
                     }
                 }
             }
@@ -187,16 +182,16 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
                 final int mode = formMode;
                 if(mode == 2) {
                     setFormMode(3);
-                    ((TextView) getView().findViewById(R.id.confPassText)).setVisibility(View.VISIBLE);
-                    ((TextView) getView().findViewById(R.id.cfpwdView)).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.confPassText).setVisibility(View.VISIBLE);
+                    getView().findViewById(R.id.cfpwdView).setVisibility(View.VISIBLE);
                     btnRegister.setText("Cancel");
                     btnLogin.setText("Register");
 
 
                 }else if(mode == 3){
                     setFormMode(2);
-                    ((TextView) getView().findViewById(R.id.confPassText)).setVisibility(View.INVISIBLE);
-                    ((TextView) getView().findViewById(R.id.cfpwdView)).setVisibility(View.INVISIBLE);
+                    getView().findViewById(R.id.confPassText).setVisibility(View.INVISIBLE);
+                    getView().findViewById(R.id.cfpwdView).setVisibility(View.INVISIBLE);
                     btnRegister.setText("Register");
                     btnLogin.setText("Login");
                 }

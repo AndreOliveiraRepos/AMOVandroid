@@ -43,7 +43,7 @@ public class GPSTracker implements LocationListener {
     public GPSTracker(Context context, Model s) {
         this.context = context;
         setSensors();
-        //this.model = s;
+        this.model = s.getInstance();
     }
 
     @Override
@@ -65,9 +65,9 @@ public class GPSTracker implements LocationListener {
 
     @Override
     public void onProviderEnabled(String s) {
-        if (s == locationManager.NETWORK_PROVIDER ){
+        if (s == LocationManager.NETWORK_PROVIDER){
             //Log.d("")
-        }else if(s == locationManager.GPS_PROVIDER){
+        }else if(s == LocationManager.GPS_PROVIDER){
 
         }
     }
@@ -101,7 +101,7 @@ public class GPSTracker implements LocationListener {
             Log.d("Error", "No Permissions");
             return;
         }
-        if (locationManager.isProviderEnabled(locationManager.GPS_PROVIDER)) {
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 20, this);
             if (locationManager != null) {
@@ -111,7 +111,7 @@ public class GPSTracker implements LocationListener {
                     this.longitude = location.getLongitude();
                 }
             }
-        } else if (locationManager.isProviderEnabled(locationManager.NETWORK_PROVIDER)) {
+        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 20, this);
             if (locationManager != null) {
                 location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);

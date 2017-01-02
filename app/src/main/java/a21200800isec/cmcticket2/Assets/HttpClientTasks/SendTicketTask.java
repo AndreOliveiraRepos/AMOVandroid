@@ -40,7 +40,7 @@ public class SendTicketTask extends AsyncTask<Void, String, Boolean> {
 
     public SendTicketTask(AsyncTaskCompleteListener l)
     {
-        this.model = model.getInstance();
+        this.model = Model.getInstance();
         this.mListener = l;
         this.ticketParameters = "descricao="+this.model.getTicket().getDescription()+"&localizacao="+this.model.getTicket().getLocation()+"&data="+this.model.getTicket().getData()+"&imagem=";
     }

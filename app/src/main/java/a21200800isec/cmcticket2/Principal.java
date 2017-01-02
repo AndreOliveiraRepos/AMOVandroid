@@ -63,11 +63,11 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
                     android.Manifest.permission.ACCESS_FINE_LOCATION}, 19);
         }
         //model = new Model();
-        model= model.getInstance();
+        model= Model.getInstance();
         model.setContext(this);
         fragmentManager = this.getSupportFragmentManager();
         //sMapFragment = new MyMapFragment();
-        debug=2;
+        debug=0;
         //ticketForm = new TicketForm();
         //ticketForm = this.getFragmentManager().findFragmentById(R.id.formTicket);
         setLayout();
@@ -95,7 +95,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
 
         if(debug == 1) {//debug login scree
 
-            this.setCurrentFragment(loginFrag.newInstance("",""));
+            this.setCurrentFragment(LoginFragment.newInstance("",""));
         }else if(debug == 2){//map screen
             sMapFragment = new MyMapFragment();
             sMapFragment.getMapAsync(this);
@@ -103,7 +103,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         }else if(debug == 3){  //camera screen
 
         }else if (debug == 0){
-            this.setCurrentFragment(loginFrag.newInstance("",""));
+            this.setCurrentFragment(LoginFragment.newInstance("",""));
         }
 
 
@@ -113,12 +113,12 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
 
     public void setControllers(){
         mSideListView.setOnItemClickListener(new DrawerItemClickListener());
-        ticketForm = ticketForm.newInstance("","");
+        ticketForm = TicketForm.newInstance("","");
         btnAddTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("DEBUG","CLICKEI");
-                ((ImageButton) findViewById(R.id.btnTicket)).setVisibility(View.INVISIBLE);
+                findViewById(R.id.btnTicket).setVisibility(View.INVISIBLE);
                 setCurrentFragment(ticketForm);
             }
         });
@@ -135,7 +135,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         LatLng local = new LatLng(model.getCurrentLatitude(), model.getCurrentLongitude());
         this.model.getMap().addMarker(new MarkerOptions().position(local).title("HERE"));
         this.model.getMap().moveCamera(CameraUpdateFactory.newLatLng(local));
-        ((ImageButton) findViewById(R.id.btnTicket)).setVisibility(View.VISIBLE);
+        findViewById(R.id.btnTicket).setVisibility(View.VISIBLE);
     }
 
     @Override
