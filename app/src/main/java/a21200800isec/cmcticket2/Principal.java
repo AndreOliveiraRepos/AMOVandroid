@@ -92,13 +92,16 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         //toast.setView((FrameLayout) findViewById(R.id.toastContainer));
         //end sidebar
         //loginfrag
-        if(debug == 1) {
+
+        if(debug == 1) {//debug login scree
 
             this.setCurrentFragment(loginFrag.newInstance("",""));
-        }else if(debug == 2){
+        }else if(debug == 2){//map screen
             sMapFragment = new MyMapFragment();
             sMapFragment.getMapAsync(this);
             setCurrentFragment(sMapFragment);
+        }else if(debug == 3){  //camera screen
+
         }else if (debug == 0){
             this.setCurrentFragment(loginFrag.newInstance("",""));
         }
