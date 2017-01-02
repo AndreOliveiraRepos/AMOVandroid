@@ -219,7 +219,7 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
         }
         else if(progressDialog != null && !result){
             progressDialog.dismiss();
-            this.errorView.setText("Wrong login");
+            mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.LOGIN,"NO");
         }
     }
 }

@@ -10,12 +10,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,6 +47,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
     ListView mSideListView;
     DrawerLayout drawerLayout;
     ImageButton btnAddTicket;
+    Toast toast;
     //model
     Model model;
 
@@ -70,7 +74,6 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         setControllers();
 
 
-
     }
 
     public void setLayout(){
@@ -83,6 +86,10 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         mSideListView = (ListView) findViewById(R.id.side_menu_view);
         mSideListView.setAdapter(new ArrayAdapter<String>(this, R.layout.list_text_view, sideMenuText));
         btnAddTicket = (ImageButton) findViewById(R.id.btnTicket);
+
+        //Toast toast = new Toast(this);
+        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        //toast.setView((FrameLayout) findViewById(R.id.toastContainer));
         //end sidebar
         //loginfrag
         if(debug == 1) {
@@ -107,7 +114,8 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         btnAddTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((LinearLayout) findViewById(R.id.mapOverlay)).setVisibility(View.GONE);
+                Log.d("DEBUG","CLICKEI");
+                ((ImageButton) findViewById(R.id.btnTicket)).setVisibility(View.INVISIBLE);
                 setCurrentFragment(ticketForm);
             }
         });
@@ -124,7 +132,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         LatLng local = new LatLng(model.getCurrentLatitude(), model.getCurrentLongitude());
         this.model.getMap().addMarker(new MarkerOptions().position(local).title("HERE"));
         this.model.getMap().moveCamera(CameraUpdateFactory.newLatLng(local));
-        ((LinearLayout) findViewById(R.id.mapOverlay)).setVisibility(View.VISIBLE);
+        ((ImageButton) findViewById(R.id.btnTicket)).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -139,6 +147,8 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
                     sMapFragment = new MyMapFragment();
                     sMapFragment.getMapAsync(this);
                     setCurrentFragment(sMapFragment);
+                }else{
+                    setToast("Try Again!");
                 }
                 break;
             case SEND:
@@ -147,6 +157,10 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
                 break;
             case TICKET:
                 if(msg.equalsIgnoreCase("OK"))
+                    setToast("Ticket sent!");
+                else{
+                    setToast("Ticket not sent, try again later!");
+                }
                     //setCurrentFragment(sMapFragment);
                 break;
             case CAMERA:
@@ -187,6 +201,8 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
     protected void onResume() {
         super.onResume();
 
+        //toast.show();
+
         //map frag code
         /*sMapFragment.getMapAsync(this);
         fragmentManager = this.getSupportFragmentManager();
@@ -213,5 +229,10 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         //kill app our change to map
     }
 
+    public void setToast(String message){
+        toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+
+        toast.show();
+    }
 
 }

@@ -42,7 +42,7 @@ public class SendTicketTask extends AsyncTask<Void, String, Boolean> {
     {
         this.model = model.getInstance();
         this.mListener = l;
-        this.ticketParameters = "username="+this.model.getUser().getUserName()+"&password="+this.model.getUser().getPassword()+"&grant_type=password";
+        this.ticketParameters = "descricao="+this.model.getTicket().getDescription()+"&localizacao="+this.model.getTicket().getLocation()+"&data="+this.model.getTicket().getData()+"&imagem=";
     }
 
 
@@ -57,11 +57,13 @@ public class SendTicketTask extends AsyncTask<Void, String, Boolean> {
             this.connection.setRequestMethod("POST");
             this.connection.setDoInput(true);
             this.connection.setDoOutput(true);
+            this.connection.addRequestProperty("Authorization", this.model.getUser().getAuthToken());
+            this.connection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 
             DataOutputStream wr = new DataOutputStream( this.connection.getOutputStream());
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
-            //writer.write(loginParameters);
+            writer.write(ticketParameters);
 
             writer.flush();
 
@@ -69,7 +71,7 @@ public class SendTicketTask extends AsyncTask<Void, String, Boolean> {
 
             responseCode = connection.getResponseCode();
 
-            if(responseCode==200) {
+            if(responseCode==201) {
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
                 responseOutput = new StringBuilder();
@@ -79,7 +81,7 @@ public class SendTicketTask extends AsyncTask<Void, String, Boolean> {
                 br.close();
 
                 jsonObject = new JSONObject(responseOutput.toString());
-                this.model.getUser().setAuthToken("Bearer " + jsonObject.getString("access_token"));
+                //this.model.getUser().setAuthToken("Bearer " + jsonObject.getString("access_token"));
                 return true;
             }else{
                 return false;

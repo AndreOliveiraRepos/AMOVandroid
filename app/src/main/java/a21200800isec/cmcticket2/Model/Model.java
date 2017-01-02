@@ -15,6 +15,7 @@ import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
 import a21200800isec.cmcticket2.Assets.GPSTracker;
 import a21200800isec.cmcticket2.Assets.HttpClient;
 import a21200800isec.cmcticket2.Assets.HttpClientTasks.LoginTask;
+import a21200800isec.cmcticket2.Assets.HttpClientTasks.SendTicketTask;
 import a21200800isec.cmcticket2.Assets.Ticket;
 import a21200800isec.cmcticket2.Assets.User;
 
@@ -55,8 +56,10 @@ public class Model{
     public User getUser(){
         return this.user;
     }
-    public void setTicket(){}
-    public void getTicket(){}
+    public void setTicket(String localizacao,String dataHoje,String descricao){
+        this.ticket = new Ticket(localizacao, dataHoje, "", descricao);
+    }
+    public Ticket getTicket(){return this.ticket;}
     public void sendTicket(){}
     public void setConnection(){}
 
@@ -106,6 +109,9 @@ public class Model{
         new LoginTask(listener).execute();
     }
 
+    public void sendTicket(AsyncTaskCompleteListener listener){
+        new SendTicketTask(listener).execute();
+    }
     public void setContext(Context context){
         this.context = context;
     }

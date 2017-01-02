@@ -43,13 +43,40 @@
             android:layout_height="match_parent"
             android:id="@+id/mapOverlay"
             android:elevation="1dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.15"></LinearLayout>
+                android:layout_weight="0.15">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"></LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/toastContainer">
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"></LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -81,7 +108,8 @@
                             android:layout_height="match_parent"
 
                             android:id="@+id/btnTicket"
-                            android:backgroundTint="@color/colorPrimary" />
+                            android:backgroundTint="@color/colorPrimary"
+                            android:visibility="invisible" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

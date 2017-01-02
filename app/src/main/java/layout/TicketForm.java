@@ -1,5 +1,6 @@
 package layout;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.media.Image;
 import android.net.Uri;
@@ -12,13 +13,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 
+import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
 import a21200800isec.cmcticket2.Model.Model;
 import a21200800isec.cmcticket2.OnFragmentInteractionListener;
 import a21200800isec.cmcticket2.R;
 
-public class TicketForm extends Fragment {
+public class TicketForm extends Fragment implements AsyncTaskCompleteListener {
     //property
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -32,6 +35,8 @@ public class TicketForm extends Fragment {
     private Image imageToSend;
     private ImageButton btnCamera;
     private ImageButton btnSend;
+    private ProgressDialog progressDialog;
+    private TextView textView;
 
     //model
     private Model model;
@@ -103,6 +108,7 @@ public class TicketForm extends Fragment {
         //imageToSend;
         btnCamera=((ImageButton) getView().findViewById(R.id.btnCamera));
         btnSend=((ImageButton) getView().findViewById(R.id.btnSend));
+        textView = ((TextView) getView().findViewById(R.id.labelDescription));
 
     }
 
@@ -114,14 +120,30 @@ public class TicketForm extends Fragment {
             }
         });
         btnSend.setOnClickListener(new View.OnClickListener() {
+            final AsyncTaskCompleteListener taskListener = TicketForm.this;
             @Override
             public void onClick(View view) {
                 if(txtDate.getText()!= null && txtDescription != null && txtLocation.getText() != null){
                     Log.d("DEBUG", "ENVIA ticket");
+                    //model.setUser(username.getText().toString(),password.getText().toString());
+                    model.setTicket(txtLocation.getText().toString(),txtDate.getText().toString(),txtDescription.getText().toString());
+                    progressDialog = ProgressDialog.show(view.getContext(), "", textView.getText(), true, true);
+                    model.sendTicket(taskListener);
                 }else{
                     Log.d("DEBUG", "Campos vazios");
                 }
             }
         });
+    }
+
+    @Override
+    public void onTaskComplete(boolean result) {
+        if (progressDialog != null && result){
+            progressDialog.dismiss();
+            mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.TICKET,"OK");
+        }else if(progressDialog != null && !result){
+            progressDialog.dismiss();
+            mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.TICKET,"OK");
+        }
     }
 }
