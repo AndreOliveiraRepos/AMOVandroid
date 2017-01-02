@@ -86,7 +86,7 @@ public class HttpClient extends AsyncTask<String, String, Boolean>{
 
 
     public HttpClient(Model m){
-        this.model = m;
+        //this.model = m;
         /*try {
             this.connection = new TCPConnection(InetAddress.getByName(url),80);
         } catch (UnknownHostException e) {
@@ -105,6 +105,8 @@ public class HttpClient extends AsyncTask<String, String, Boolean>{
     }
 
     public String getResponse(){ return this.response;}
+
+    public int getResponseCode(){ return this.responseCode;}
 
     private void sendPost(String params){
         try {
@@ -132,21 +134,24 @@ public class HttpClient extends AsyncTask<String, String, Boolean>{
 
             responseCode = connection.getResponseCode();
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line = "";
-            responseOutput = new StringBuilder();
-            while((line = br.readLine()) != null ) {
-                responseOutput.append(line);
-            }
-            br.close();
+            if(responseCode==200) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                responseOutput = new StringBuilder();
+                while ((line = br.readLine()) != null) {
+                    responseOutput.append(line);
+                }
+                br.close();
 
-            jsonObject = new JSONObject(responseOutput.toString());
+                jsonObject = new JSONObject(responseOutput.toString());
+                this.model.getUser().setAuthToken("Bearer " + jsonObject.getString("access_token"));
+            }
             /*response = jsonObject.getString("access_token");
             Log.d("Request",response);*/
         } catch (IOException e) {
             Log.d("Error","IO exception: " + e);
         } catch (JSONException e) {
-            Log.d("Error","IO exception: " + e);
+            Log.d("Error","JSON exception: " + e);
         }
 
     }
@@ -209,6 +214,12 @@ public class HttpClient extends AsyncTask<String, String, Boolean>{
             return false;
         }
         return true;
+    }
+
+    @Override
+    protected void onPreExecute() {
+       this.model = model.getInstance();
+
     }
 
 }

@@ -5,6 +5,7 @@ package layout;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -32,5 +33,16 @@ public class MyMapFragment extends SupportMapFragment {
     public void setLat(double l){this.lat = l;}
     public void setLon(double l){this.lon = l;}
 
+    public void setController(){
+        ImageButton btn = ((ImageButton)getView().findViewById(R.id.writeNewTicket));
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((LinearLayout)getView().findViewById(R.id.overlay)).setVisibility(View.INVISIBLE);
+                //set new instance of ticketfragment
+                //setCurrentFragment()
+            }
+        });
 
+    }
 }

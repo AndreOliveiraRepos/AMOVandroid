@@ -8,7 +8,10 @@ import android.net.Uri;
 
 
 public interface OnFragmentInteractionListener {
+    public enum FRAGMENT_TAG{
+        ABOUT,LOGIN,SEND,TICKET;
+    }
 
-    public void onFragmentMessage(String TAG, Object data);
+    public void onFragmentMessage(FRAGMENT_TAG TAG, String msg);
 }
 

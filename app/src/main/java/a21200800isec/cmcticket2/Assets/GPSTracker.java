@@ -41,16 +41,18 @@ public class GPSTracker implements LocationListener {
     public GPSTracker(Context context, Model s) {
         this.context = context;
         setSensors();
-        this.model = s;
+        //this.model = s;
     }
 
     @Override
     public void onLocationChanged(Location location) {
         Log.d("LAT",String.valueOf(location.getLatitude()));
         Log.d("LON",String.valueOf(location.getLongitude()));
-        model.setCurretLatitude(location.getLatitude());
-        model.setCurretLongitude(location.getLongitude());
-        model.refreshMap();
+        if(model.getMap() != null) {
+            model.setCurretLatitude(location.getLatitude());
+            model.setCurretLongitude(location.getLongitude());
+            model.refreshMap();
+        }
 
     }
 

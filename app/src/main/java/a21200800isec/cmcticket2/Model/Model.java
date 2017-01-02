@@ -1,6 +1,7 @@
 package a21200800isec.cmcticket2.Model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -10,6 +11,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 import a21200800isec.cmcticket2.Assets.GPSTracker;
+import a21200800isec.cmcticket2.Assets.HttpClient;
 import a21200800isec.cmcticket2.Assets.Ticket;
 import a21200800isec.cmcticket2.Assets.User;
 
@@ -27,26 +29,26 @@ public class Model {
     private Context context;
     private GPSTracker tracker;
     private GoogleMap mapa;
+    private HttpClient httpClient;
 
-    public Model(Context context) {
-        this.context = context;
-        this.tracker = new GPSTracker(context,this);
-        this.tracker.setSensors();
-        this.tracker.startTracker();
-        this.lat = this.tracker.getLatitude();
-        this.lon = this.tracker.getLongitude();
+    private Model() {
+        //this.context = context;
+        /**/
         this.user = new User();
-        //this.mapa ;
+        //this.mapa = GoogleMap() ;
     }
-    /*public static Model getInstance(){
+    public static Model getInstance(){
         if(modelInstance == null)
         {
             modelInstance = new Model();
         }
         return modelInstance;
-    }*/
+    }
 
-    public void setUser(){}
+    public void setUser(String u, String p){
+        this.user.setUserName(u);
+        this.user.setPassword(p);
+    }
     public User getUser(){
         return this.user;
     }
@@ -55,8 +57,19 @@ public class Model {
     public void sendTicket(){}
     public void setConnection(){}
 
+    //tracker
     public void stopTracker(){}
     public void startTracker(){}
+    public void setTracker(){
+        this.tracker = new GPSTracker(this.context,this);
+        this.tracker.setSensors();
+
+        //passar acime?
+
+        this.tracker.startTracker();
+        this.lat = this.tracker.getLatitude();
+        this.lon = this.tracker.getLongitude();
+    }
 
     public double getCurrentLatitude(){
         return this.lat;
@@ -80,5 +93,26 @@ public class Model {
     public void pauseTracker(){
         //needs to pause
 
+    }
+
+    public boolean doLogin(){
+        HttpClient httpClient = new HttpClient(this);
+        httpClient.execute("/token" , HttpClient.RequestType.POST.toString());
+       // httpClient.
+        if(httpClient.getResponseCode() == 200){
+            Log.d("DEBUG", "LOGIN OK");
+            return true;
+        }else{
+            Log.d("DEBUG", String.valueOf(httpClient.getResponseCode()));
+            return false;
+        }
+    }
+
+    public void setContext(Context context){
+        this.context = context;
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

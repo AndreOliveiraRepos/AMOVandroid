@@ -12,14 +12,6 @@ import android.view.ViewGroup;
 import a21200800isec.cmcticket2.OnFragmentInteractionListener;
 import a21200800isec.cmcticket2.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TicketForm.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TicketForm#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TicketForm extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,13 +62,7 @@ public class TicketForm extends Fragment {
         return inflater.inflate(R.layout.fragment_ticket_form, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            //mListener.onFragmentInteraction(uri);
-            mListener.onFragmentMessage("loginFrag",uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -95,18 +81,5 @@ public class TicketForm extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }

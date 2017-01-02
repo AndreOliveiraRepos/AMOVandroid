@@ -1,13 +1,12 @@
 package a21200800isec.cmcticket2;
 
 
-import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -24,21 +23,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-import a21200800isec.cmcticket2.Assets.HttpClient;
 import a21200800isec.cmcticket2.Model.Model;
-import a21200800isec.cmcticket2.R;
 import layout.MyMapFragment;
-import layout.TicketForm;
-import layout.loginFragment;
+import layout.LoginFragment;
 
 public class Principal extends FragmentActivity implements OnMapReadyCallback, OnFragmentInteractionListener {
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
 
     MyMapFragment sMapFragment;
+    LoginFragment loginFrag;
     ArrayList<String> sideMenuText;
     ListView mSideListView;
     DrawerLayout drawerLayout;
@@ -54,13 +50,16 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
                     android.Manifest.permission.ACCESS_FINE_LOCATION}, 19);
         }
         //model = new Model();
-        setLayout();
-        setControllers();
-        sMapFragment = new MyMapFragment();
+        model= model.getInstance();
+        model.setContext(this);
+        fragmentManager = this.getSupportFragmentManager();
+        //sMapFragment = new MyMapFragment();
+
         //ticketForm = new TicketForm();
         //ticketForm = this.getFragmentManager().findFragmentById(R.id.formTicket);
+        setLayout();
+        setControllers();
 
-        model = new Model(this);
 
 
     }
@@ -74,7 +73,10 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         drawerLayout = (DrawerLayout) findViewById(R.id.side_menu_layout);
         mSideListView = (ListView) findViewById(R.id.side_menu_view);
         mSideListView.setAdapter(new ArrayAdapter<String>(this, R.layout.list_text_view, sideMenuText));
+        //end sidebar
+        //loginfrag
 
+        this.setCurrentFragment(loginFrag.newInstance("",""));
     }
 
     public void setControllers(){
@@ -91,19 +93,29 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         LatLng local = new LatLng(model.getCurrentLatitude(), model.getCurrentLongitude());
         this.model.getMap().addMarker(new MarkerOptions().position(local).title("HERE"));
         this.model.getMap().moveCamera(CameraUpdateFactory.newLatLng(local));
-        ImageButton btn = ((ImageButton)findViewById(R.id.writeNewTicket));
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((LinearLayout)findViewById(R.id.overlay)).setVisibility(View.INVISIBLE);
-                changeFragment();
-            }
-        });
+
     }
 
     @Override
-    public void onFragmentMessage(String TAG, Object data) {
-        Log.d("Entered here","OK!");
+    public void onFragmentMessage(FRAGMENT_TAG TAG, String msg) {
+        switch (TAG){
+            case ABOUT:
+                break;
+            case LOGIN:
+                if(msg.equalsIgnoreCase("OK"))
+                    setCurrentFragment(sMapFragment);
+
+                break;
+            case SEND:
+                if(msg.equalsIgnoreCase("OK"))
+                    //setCurrentFragment(sMapFragment);
+                break;
+            case TICKET:
+                if(msg.equalsIgnoreCase("OK"))
+                    //setCurrentFragment(sMapFragment);
+                break;
+
+        }
     }
 
 
@@ -115,20 +127,16 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         }
     }
 
-    private void changeFragment() {
-        /*ArticleFragment newFragment = new ArticleFragment();
-        Bundle args = new Bundle();
-        args.putInt(ArticleFragment.ARG_POSITION, position);
-        newFragment.setArguments(args);*/
-        TicketForm ticketForm= new TicketForm();
-        loginFragment loginFrag = new loginFragment();
+    private void setCurrentFragment(Fragment frag) {
+
+        /*TicketForm ticketForm= new TicketForm();
+        LoginFragment loginFrag = new LoginFragment();*/
 
         transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragContainer, loginFrag);
+        transaction.replace(R.id.fragContainer, frag);
 
 
-        //transaction.replace(R.id.fragContainer, ticketForm);
-        //transaction.addToBackStack(null);
+
 
 
         transaction.commit();
@@ -140,14 +148,16 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
     @Override
     protected void onResume() {
         super.onResume();
-        sMapFragment.getMapAsync(this);
+
+        //map frag code
+        /*sMapFragment.getMapAsync(this);
         fragmentManager = this.getSupportFragmentManager();
 
         transaction = fragmentManager.beginTransaction();
 
         transaction.replace(R.id.fragContainer,sMapFragment);
 
-        transaction.commit();
+        transaction.commit();*/
         /*HttpClient httpClient = new HttpClient(this.model);
         httpClient.execute("/token" , HttpClient.RequestType.POST.toString());*/
 
