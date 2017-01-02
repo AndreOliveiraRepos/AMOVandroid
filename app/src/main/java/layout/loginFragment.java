@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.google.android.gms.vision.text.Line;
 import com.google.android.gms.vision.text.Text;
 
+import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
 import a21200800isec.cmcticket2.Assets.HttpClient;
 import a21200800isec.cmcticket2.Model.Model;
 import a21200800isec.cmcticket2.OnFragmentInteractionListener;
@@ -32,7 +33,7 @@ import a21200800isec.cmcticket2.R;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements AsyncTaskCompleteListener {
 
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,6 +49,7 @@ public class LoginFragment extends Fragment {
     private EditText username;
     private EditText password;
     private TextView errorView;
+    private ProgressDialog progressDialog;
 
 
 
@@ -57,6 +59,7 @@ public class LoginFragment extends Fragment {
     private int formMode;
 
     private a21200800isec.cmcticket2.OnFragmentInteractionListener mListener;
+
 
     public LoginFragment() {
         // Required empty public constructor
@@ -156,19 +159,15 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 //login
                 final int mode = formMode;
+                final AsyncTaskCompleteListener taskListener = LoginFragment.this;
                 if(mode == 2) {
                     Log.d("FAZ ", "LOGIN");
                     username = ((EditText)getView().findViewById(R.id.txtusername));
                     password = ((EditText)getView().findViewById(R.id.txtpassword));
                     if(username.getText().length()> 0 && password.getText().length() > 0) {
                         model.setUser(username.getText().toString(),password.getText().toString());
-                        ProgressDialog progressDialog = ProgressDialog.show(view.getContext(), "", errorView.getText(), true, true);
-                        if (model.doLogin()) {
-                            mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.LOGIN, "OK");
-                        } else {
-                            mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.LOGIN, "NO");
-
-                        }
+                        progressDialog = ProgressDialog.show(view.getContext(), "", errorView.getText(), true, true);
+                        model.doLogin(taskListener);
                     }else{
                         Log.d("Erro","pass e user");
                         errorView.setText("Password and User cant be empty!");
@@ -210,5 +209,17 @@ public class LoginFragment extends Fragment {
 
     private void setFormMode(int m){
         this.formMode = m;
+    }
+
+    @Override
+    public void onTaskComplete(boolean result) {
+        if (progressDialog != null && result){
+            progressDialog.dismiss();
+            mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.LOGIN,"OK");
+        }
+        else if(progressDialog != null && !result){
+            progressDialog.dismiss();
+            this.errorView.setText("Wrong login");
+        }
     }
 }

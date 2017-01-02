@@ -38,6 +38,8 @@ public class GPSTracker implements LocationListener {
     private double longitude;
     private Model model;
 
+    LocationListener mListener;
+
     public GPSTracker(Context context, Model s) {
         this.context = context;
         setSensors();

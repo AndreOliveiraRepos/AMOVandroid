@@ -68,7 +68,7 @@
                     android:inputType="textPersonName"
                     android:text="Name"
                     android:ems="10"
-                    android:id="@+id/editText7"
+                    android:id="@+id/textDate"
                     android:background="@color/cast_expanded_controller_ad_label_background_color"
                     android:layout_marginTop="10dp" />
             </LinearLayout>
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:ems="10"
-                    android:id="@+id/descriptionText"
+                    android:id="@+id/textDescription"
                     android:layout_weight="0.25"
                     android:background="@color/cast_expanded_controller_ad_label_background_color"
                     android:layout_marginTop="10dp" />
@@ -126,7 +126,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton7"
+                        android:id="@+id/btnCamera"
                         android:background="@color/colorPrimary"
                         app:srcCompat="@android:drawable/ic_menu_camera"
                         android:layout_margin="10dp" />
@@ -143,7 +143,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/imageButton8"
+                        android:id="@+id/btnSend"
                         android:background="@color/colorPrimary"
                         app:srcCompat="@android:drawable/ic_dialog_email"
                         android:layout_margin="10dp" />

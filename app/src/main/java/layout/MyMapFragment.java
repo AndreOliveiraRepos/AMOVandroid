@@ -3,7 +3,9 @@ package layout;
 //import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -28,21 +30,25 @@ public class MyMapFragment extends SupportMapFragment {
     }
 
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        //((LinearLayout)this.getView().findViewById(R.id.mapOverlay)).setVisibility(View.VISIBLE);
+    }
 
     public void setLat(double l){this.lat = l;}
     public void setLon(double l){this.lon = l;}
 
     public void setController(){
-        ImageButton btn = ((ImageButton)getView().findViewById(R.id.writeNewTicket));
+        /*ImageButton btn = ((ImageButton)getView().findViewById(R.id.btnTicket));
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((LinearLayout)getView().findViewById(R.id.overlay)).setVisibility(View.INVISIBLE);
+                ((LinearLayout)getView().findViewById(R.id.mapOverlay)).setVisibility(View.INVISIBLE);
                 //set new instance of ticketfragment
                 //setCurrentFragment()
             }
-        });
+        });*/
 
     }
 }

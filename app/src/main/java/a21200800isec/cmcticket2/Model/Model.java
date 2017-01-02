@@ -7,11 +7,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
+import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
 import a21200800isec.cmcticket2.Assets.GPSTracker;
 import a21200800isec.cmcticket2.Assets.HttpClient;
+import a21200800isec.cmcticket2.Assets.HttpClientTasks.LoginTask;
 import a21200800isec.cmcticket2.Assets.Ticket;
 import a21200800isec.cmcticket2.Assets.User;
 
@@ -19,7 +22,7 @@ import a21200800isec.cmcticket2.Assets.User;
  * Created by red_f on 28/12/2016.
  */
 
-public class Model {
+public class Model{
     private static Model modelInstance = null;
     private User user;
     private Ticket ticket;
@@ -35,7 +38,7 @@ public class Model {
         //this.context = context;
         /**/
         this.user = new User();
-        //this.mapa = GoogleMap() ;
+
     }
     public static Model getInstance(){
         if(modelInstance == null)
@@ -61,6 +64,7 @@ public class Model {
     public void stopTracker(){}
     public void startTracker(){}
     public void setTracker(){
+
         this.tracker = new GPSTracker(this.context,this);
         this.tracker.setSensors();
 
@@ -86,7 +90,10 @@ public class Model {
     }
 
     public GoogleMap getMap(){return this.mapa;}
-    public void setMap(GoogleMap m){this.mapa = m;}
+    public void setMap(GoogleMap m){
+        this.mapa = m;
+
+    }
     public void setCurretLatitude(double l){this.lat = l;}
     public void setCurretLongitude(double l){this.lon = l;}
 
@@ -95,17 +102,8 @@ public class Model {
 
     }
 
-    public boolean doLogin(){
-        HttpClient httpClient = new HttpClient(this);
-        httpClient.execute("/token" , HttpClient.RequestType.POST.toString());
-       // httpClient.
-        if(httpClient.getResponseCode() == 200){
-            Log.d("DEBUG", "LOGIN OK");
-            return true;
-        }else{
-            Log.d("DEBUG", String.valueOf(httpClient.getResponseCode()));
-            return false;
-        }
+    public void doLogin(AsyncTaskCompleteListener listener){
+        new LoginTask(listener).execute();
     }
 
     public void setContext(Context context){

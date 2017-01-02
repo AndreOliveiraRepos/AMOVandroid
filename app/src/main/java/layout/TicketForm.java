@@ -1,42 +1,49 @@
 package layout;
 
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 
+import a21200800isec.cmcticket2.Model.Model;
 import a21200800isec.cmcticket2.OnFragmentInteractionListener;
 import a21200800isec.cmcticket2.R;
 
 public class TicketForm extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    //property
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    //components
+    private EditText txtLocation;
+    private EditText txtDate;
+    private EditText txtDescription;
+    private Image imageToSend;
+    private ImageButton btnCamera;
+    private ImageButton btnSend;
+
+    //model
+    private Model model;
 
     private a21200800isec.cmcticket2.OnFragmentInteractionListener mListener;
 
     public TicketForm() {
         // Required empty public constructor
+        this.model = model.getInstance();
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TicketForm.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static TicketForm newInstance(String param1, String param2) {
         TicketForm fragment = new TicketForm();
         Bundle args = new Bundle();
@@ -59,6 +66,7 @@ public class TicketForm extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_ticket_form, container, false);
     }
 
@@ -81,5 +89,39 @@ public class TicketForm extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setViews();
+        setControllers();
+    }
 
+    public void setViews(){
+        txtLocation = ((EditText) getView().findViewById(R.id.textLocation));
+        txtDate = ((EditText) getView().findViewById(R.id.textDate));
+        txtDescription = ((EditText) getView().findViewById(R.id.textDescription));
+        //imageToSend;
+        btnCamera=((ImageButton) getView().findViewById(R.id.btnCamera));
+        btnSend=((ImageButton) getView().findViewById(R.id.btnSend));
+
+    }
+
+    public void setControllers(){
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.CAMERA, "OK");
+            }
+        });
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(txtDate.getText()!= null && txtDescription != null && txtLocation.getText() != null){
+                    Log.d("DEBUG", "ENVIA ticket");
+                }else{
+                    Log.d("DEBUG", "Campos vazios");
+                }
+            }
+        });
+    }
 }
