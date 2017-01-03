@@ -1,26 +1,65 @@
 package layout;
 
+import android.app.Activity;
 import android.content.Context;
 
+
+import android.content.pm.PackageManager;
+import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
+
+import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+
 import android.view.LayoutInflater;
+
+import android.view.Surface;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import a21200800isec.cmcticket2.R;
 
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
-public class CameraFragment extends Fragment {
+
+@SuppressWarnings("deprecation")
+public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static final int MEDIA_TYPE_IMAGE = 1;
 
 
     private String mParam1;
     private String mParam2;
+
+    //components
+    private SurfaceHolder mHolder;
+    private Button btnPhoto;
+    private SurfaceView surfaceView;
+
+    //camera elements
+    private Camera camera;
+    private static int cameraID;
+
+
 
 
 
@@ -30,6 +69,7 @@ public class CameraFragment extends Fragment {
 
     public CameraFragment() {
         // Required empty public constructor
+
     }
 
 
@@ -45,17 +85,42 @@ public class CameraFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        //code
+
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_camera, container, false);
+
+        View v = inflater.inflate(R.layout.fragment_camera, container, false);
+        //camera = getCameraInstance();
+        btnPhoto = (Button)v.findViewById(R.id.btnPhoto);
+        surfaceView = (SurfaceView)v.findViewById(R.id.surfaceView);
+        //setMyPreviewSize();
+        mHolder = surfaceView.getHolder();
+
+        mHolder.addCallback(this);
+        //mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+        btnPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                camera.takePicture(null, null, mPicture);
+                //Log.d("DEBUG", "CAMERA WIDTH: " + camera.getParameters().getPreviewSize().width + "\nCAMERA HEIGHT: " + camera.getParameters().getPreviewSize().height);
+
+            }
+        });
+        Log.d("DEBUG", "------------------------------------------------->VIEW");
+        return v;
     }
 
 
@@ -72,15 +137,275 @@ public class CameraFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(camera == null && mHolder!=null)
+            camera = getCameraInstance();
+        try {
+            setCameraDisplayOrientation(getActivity(),cameraID);
+
+            camera.setPreviewDisplay(mHolder);
+            camera.startPreview();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /** A safe way to get an instance of the Camera object. */
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try {
+            c = Camera.open(cameraID); // attempt to get a Camera instance
+        }
+        catch (Exception e){
+            Log.d("DEBUG", "Error accessing camera: " + e.getMessage());
+        }
+        Log.d("DEBUG", "CAMARA IS: " + c.toString());
+        return c; // returns null if camera is unavailable
+    }
 
-       /* if(camPreview != null){
-            camPreview.destroyDrawingCache();
-            camPreview.mCamera = null;
-        }*/
 
+    /** Check if this device has a camera */
+    private boolean checkCameraHardware(Context context) {
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            Log.d("DEBUG", "HAS CAMERA: ");
+            // this device has a camera
+            return true;
+        } else {
+            Log.d("DEBUG", "NO CAMERA: ");
+            // no camera on this device
+            return false;
+        }
+    }
+
+    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
+
+        @Override
+        public void onPictureTaken(byte[] data, Camera cam) {
+
+            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+            if (pictureFile == null){
+                Log.d("DEBUG", "Error creating media file, check storage permissions: ");
+                return;
+            }
+
+            try {
+                FileOutputStream fos = new FileOutputStream(pictureFile);
+                fos.write(data);
+                fos.close();
+
+            } catch (FileNotFoundException e) {
+                Log.d("DEBUG", "File not found: " + e.getMessage());
+            } catch (IOException e) {
+                Log.d("DEBUG", "Error accessing file: " + e.getMessage());
+            }
+        }
+    };
+
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+
+        if(camera == null)
+            camera = getCameraInstance();
+        try {
+            setCameraDisplayOrientation(getActivity(),cameraID);
+
+            camera.setPreviewDisplay(mHolder);
+            camera.startPreview();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d("DEBUG", "------------------------------------------------->CREATED"+ camera.toString());
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+        Log.d("DEBUG", "------------------------------------------------->CHANGED"+ camera.toString());
+        if (mHolder.getSurface() == null){
+            // preview surface does not exist
+            return;
+        }
+
+        // stop preview before making changes
+        try {
+            camera.stopPreview();
+        } catch (Exception e){
+
+            // ignore: tried to stop a non-existent preview
+        }
+
+        // set preview size and make any resize, rotate or
+        // reformatting changes here
+        configCamera(i1,i2);
+        // start preview with new settings
+        try {
+            camera.setPreviewDisplay(mHolder);
+            camera.startPreview();
+
+        } catch (Exception e){
+            Log.d("DEBUG", "Error starting camera preview: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        //releaseCamera();
+    }
+
+
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "CMCTicket");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("CMCTicket", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+
+    private void releaseCamera(){
+        if (camera != null){
+            camera.release();        // release the camera for other applications
+
+        }
+        camera = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(camera!= null)
+            Log.d("DEBUG", "------------------------------------------------->PAUSED"+ camera.toString());
+        else
+            Log.d("DEBUG", "------------------------------------------------->PAUSED");
+        releaseCamera();
+    }
+
+
+
+    public void setCameraDisplayOrientation(Activity activity, int cameraId) {
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        camera.setDisplayOrientation(result);
+    }
+
+    public void configCamera(int width, int height){
+        setCameraDisplayOrientation(getActivity(), cameraID);
+        Camera.Parameters parameters=camera.getParameters();
+        Camera.Size bestPreviewSize=getBestPreviewSize(width, height, parameters);
+        Camera.Size bestPictureSize=getBestPictureSize(width, height, parameters);
+        parameters.setPreviewSize(bestPreviewSize.width, bestPreviewSize.height);
+        parameters.setPictureSize(bestPictureSize.width,bestPictureSize.height);
+        List<String> supportedFocusModes = camera.getParameters().getSupportedFocusModes();
+        boolean hasAutoFocus = supportedFocusModes != null && supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO);
+        if(hasAutoFocus)
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+        camera.setParameters(parameters);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        releaseCamera();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        releaseCamera();
+    }
+
+    private Camera.Size getBestPreviewSize(int width, int height,Camera.Parameters parameters) {
+        Camera.Size result=null;
+
+        for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
+            if (size.width <= width && size.height <= height) {
+                if (result == null) {
+                    result=size;
+                }
+                else {
+                    int resultArea=result.width * result.height;
+                    int newArea=size.width * size.height;
+
+                    if (newArea > resultArea) {
+                        result=size;
+                    }
+                }
+            }
+        }
+
+        return(result);
+    }
+
+    private Camera.Size getBestPictureSize(int width, int height,Camera.Parameters parameters) {
+        Camera.Size result=null;
+
+        for (Camera.Size size : parameters.getSupportedPictureSizes()) {
+            if (size.width <= width && size.height <= height) {
+                if (result == null) {
+                    result=size;
+                }
+                else {
+                    int resultArea=result.width * result.height;
+                    int newArea=size.width * size.height;
+
+                    if (newArea > resultArea) {
+                        result=size;
+                    }
+                }
+            }
+        }
+
+        return(result);
+    }
 }

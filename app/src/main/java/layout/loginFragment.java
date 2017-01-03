@@ -43,6 +43,7 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
     private LinearLayout clickableLayout;
     private EditText username;
     private EditText password;
+    private EditText confirmpassword;
     private TextView errorView;
     private ProgressDialog progressDialog;
 
@@ -159,6 +160,7 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
                     Log.d("FAZ ", "LOGIN");
                     username = ((EditText)getView().findViewById(R.id.txtusername));
                     password = ((EditText)getView().findViewById(R.id.txtpassword));
+
                     if(username.getText().length()> 0 && password.getText().length() > 0) {
                         model.setUser(username.getText().toString(),password.getText().toString());
                         progressDialog = ProgressDialog.show(view.getContext(), "", errorView.getText(), true, true);
@@ -170,6 +172,24 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
 
                 }else if(mode == 3){
                     Log.d("CONFIRMA","REGISTO");
+                    username = ((EditText)getView().findViewById(R.id.txtusername));
+                    password = ((EditText)getView().findViewById(R.id.txtpassword));
+                    confirmpassword = ((EditText)getView().findViewById(R.id.confPassText));
+                    if(username.getText().length()> 0 && password.getText().length() > 0 && confirmpassword.getText().length() >0) {
+                        if(password.getText().toString().equalsIgnoreCase(confirmpassword.getText().toString())){
+                            model.setUser(username.getText().toString(),password.getText().toString());
+                            progressDialog = ProgressDialog.show(view.getContext(), "", errorView.getText(), true, true);
+                            model.doRegister(taskListener);
+                        }else{
+                            errorView.setText("Passwords and must be identical!");
+                        }
+                        /*model.setUser(username.getText().toString(),password.getText().toString());
+                        progressDialog = ProgressDialog.show(view.getContext(), "", errorView.getText(), true, true);
+                        model.doLogin(taskListener);*/
+                    }else{
+                        Log.d("Erro","pass e user");
+                        errorView.setText("Password and User cant be empty!");
+                    }
                 }
             }
         });
@@ -209,12 +229,25 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
     @Override
     public void onTaskComplete(boolean result) {
         if (progressDialog != null && result){
-            progressDialog.dismiss();
-            mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.LOGIN,"OK");
+            if(formMode == 2){
+                progressDialog.dismiss();
+                mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.LOGIN,"OK");
+            }else if(formMode == 3){
+                progressDialog.dismiss();
+                mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.REGISTER,"OK");
+                setFormMode(2);
+            }
         }
+
         else if(progressDialog != null && !result){
-            progressDialog.dismiss();
-            mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.LOGIN,"NO");
+            if(formMode == 2){
+                progressDialog.dismiss();
+                mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.LOGIN,"NO");
+            }else if(formMode == 3){
+                progressDialog.dismiss();
+                mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.REGISTER,"NO");
+            }
+
         }
     }
 }

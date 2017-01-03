@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 import a21200800isec.cmcticket2.Model.Model;
+import layout.CameraFragment;
 import layout.MyMapFragment;
 import layout.LoginFragment;
 import layout.TicketForm;
@@ -42,6 +43,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
     MyMapFragment sMapFragment;
     LoginFragment loginFrag;
     TicketForm ticketForm;
+    CameraFragment cameraFragment;
     //components
     ArrayList<String> sideMenuText;
     ListView mSideListView;
@@ -60,14 +62,17 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{
                     android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 19);
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.CAMERA,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    }, 19);
         }
         //model = new Model();
         model= Model.getInstance();
         model.setContext(this);
         fragmentManager = this.getSupportFragmentManager();
         //sMapFragment = new MyMapFragment();
-        debug=0;
+        debug=3;
         //ticketForm = new TicketForm();
         //ticketForm = this.getFragmentManager().findFragmentById(R.id.formTicket);
         setLayout();
@@ -87,11 +92,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         mSideListView.setAdapter(new ArrayAdapter<String>(this, R.layout.list_text_view, sideMenuText));
         btnAddTicket = (ImageButton) findViewById(R.id.btnTicket);
 
-        //Toast toast = new Toast(this);
-        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        //toast.setView((FrameLayout) findViewById(R.id.toastContainer));
-        //end sidebar
-        //loginfrag
+
 
         if(debug == 1) {//debug login scree
 
@@ -101,7 +102,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
             sMapFragment.getMapAsync(this);
             setCurrentFragment(sMapFragment);
         }else if(debug == 3){  //camera screen
-
+            this.setCurrentFragment(cameraFragment = cameraFragment.newInstance("",""));
         }else if (debug == 0){
             this.setCurrentFragment(LoginFragment.newInstance("",""));
         }
