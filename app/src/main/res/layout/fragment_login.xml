@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="layout.LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
 
     <LinearLayout
         android:orientation="vertical"
@@ -178,7 +178,7 @@
                         android:layout_margin="10dp"
                         android:textColorLink="?attr/colorControlNormal"
                         android:checked="false"
-                        app:buttonTint="@android:color/darker_gray" />
+                        />
                 </LinearLayout>
 
                 <LinearLayout

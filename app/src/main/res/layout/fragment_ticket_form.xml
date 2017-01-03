@@ -6,7 +6,7 @@
     tools:context="layout.TicketForm"
     android:id="@+id/formTicket">
 
-    <!-- TODO: Update blank fragment layout -->
+
 
     <LinearLayout
         android:orientation="vertical"

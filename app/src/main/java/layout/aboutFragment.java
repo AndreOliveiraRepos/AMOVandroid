@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import a21200800isec.cmcticket2.OnFragmentInteractionListener;
 import a21200800isec.cmcticket2.R;
 
-
+//TODO: Implement
 public class AboutFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -54,7 +54,7 @@ public class AboutFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_about, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
            // mListener.onFragmentInteraction(uri);
