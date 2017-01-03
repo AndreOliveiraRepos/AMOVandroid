@@ -69,7 +69,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.3">
+            android:layout_weight="0.4">
 
             <Button
                 android:text="Debugger"
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView"
-                android:textColor="@android:color/white"
+                android:textColor="@color/mainFontColor"
                 android:layout_margin="10dp"
                 android:paddingLeft="10dp" />
 
@@ -107,8 +107,10 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
 
-                android:backgroundTint="@android:color/white"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="10dp"
+                android:alpha="0.7"
+                android:background="@android:color/background_light"
+                android:textSize="24dp" />
 
             <TextView
                 android:text="Password"
@@ -117,7 +119,7 @@
                 android:id="@+id/textView2"
                 android:layout_margin="10dp"
                 android:alpha="255"
-                android:textColor="@android:color/white"
+                android:textColor="@color/mainFontColor"
                 android:paddingLeft="10dp" />
 
             <EditText
@@ -129,14 +131,17 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:backgroundTint="@android:color/white"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="10dp"
+                android:background="@android:color/background_light"
+                android:alpha="0.7"
+                android:textSize="24dp" />
 
             <TextView
                 android:text="Confirm Password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/cfpwdView"
-                android:textColor="@android:color/white"
+                android:textColor="@color/mainFontColor"
                 android:paddingLeft="10dp"
                 android:layout_margin="10dp"
                 android:visibility="invisible" />
@@ -148,11 +153,51 @@
                 android:ems="10"
                 android:id="@+id/confPassText"
 
-                android:backgroundTint="@android:color/white"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:paddingLeft="10dp"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                android:alpha="0.7"
+                android:background="@android:color/background_light"
+                android:textSize="24dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <CheckBox
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/checkBox"
+                        android:layout_margin="10dp"
+                        android:textColorLink="?attr/colorControlNormal"
+                        android:checked="false"
+                        app:buttonTint="@android:color/darker_gray" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
+
+                    <TextView
+                        android:text="Remember me"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView3"
+                        android:textColor="@color/mainFontColor"
+                        android:layout_margin="10dp"
+                        android:paddingLeft="10dp" />
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
