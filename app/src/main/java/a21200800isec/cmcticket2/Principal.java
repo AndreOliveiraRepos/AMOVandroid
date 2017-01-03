@@ -74,7 +74,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         model.setContext(this);
         fragmentManager = this.getSupportFragmentManager();
         //sMapFragment = new MyMapFragment();
-        debug=1;
+        debug=2;
         //ticketForm = new TicketForm();
         //ticketForm = this.getFragmentManager().findFragmentById(R.id.formTicket);
         setLayout();

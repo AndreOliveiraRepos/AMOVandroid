@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">CMCTicket2</string>
+
+    <!--buttons-->
+    <string name="btnSendString">Send</string>
+    <string name="btnPhotoString">Photo</string>
+    <string name="btnCameraString">Camera</string>
+    <string name="btnLoginString">Login</string>
+    <string name="btnCancelString">Cancel</string>
+    <string name="btnRegisterString">Register</string>
+    <string name="welcomeString">Welcome</string>
+    <!--Labels-->
+    <string name="userLabel">User</string>
+    <string name="userNameLabel">User Name</string>
+    <string name="confirmPasswordLabel">Confirm Password</string>
+    <string name="loadingLabel">Loading</string>
+    <string name="loginLabel">Log in</string>
+    <string name="dateLabel">Date</string>
+    <string name="locationLabel">Location</string>
+    <string name="descriptionLabel">Description</string>
+    <!--errors-->
+    <string name="ioErrorString">IO Error</string>
+    <string name="connectionErrorString">Connection error</string>
+    <string name="notFoundErrorString">Not Found</string>
+
+
+</resources>

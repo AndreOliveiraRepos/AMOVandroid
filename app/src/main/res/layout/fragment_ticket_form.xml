@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="layout.TicketForm"
-    android:id="@+id/formTicket">
-
+    android:id="@+id/formTicket"
+    android:background="@mipmap/bckimageedit">
 
 
     <LinearLayout
@@ -19,7 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.25"
-            android:id="@+id/formContainer">
+            android:id="@+id/formContainer"
+            android:background="@drawable/layout_border_rounded"
+            android:layout_margin="10dp">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -29,22 +31,24 @@
                 android:layout_margin="10dp">
 
                 <TextView
-                    android:text="Current Location"
+                    android:text="@string/locationLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/labelLocation"
                     android:textColor="@android:color/black"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:background="@color/colorPrimary"
+                    android:alpha="0.5" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textPersonName"
-                    android:text="Name"
+                    android:inputType="text|textPersonName"
                     android:ems="10"
                     android:id="@+id/textLocation"
-                    android:background="@color/common_google_signin_btn_text_dark_disabled"
-                    android:layout_marginTop="10dp" />
+                    android:background="@android:color/white"
+                    android:layout_marginTop="10dp"
+                    android:alpha="0.85" />
             </LinearLayout>
 
             <LinearLayout
@@ -55,22 +59,24 @@
                 android:layout_margin="10dp">
 
                 <TextView
-                    android:text="Date"
+                    android:text="@string/dateLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/labelDate"
                     android:textColor="@android:color/black"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:background="@color/colorPrimary"
+                    android:alpha="0.5" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textPersonName"
-                    android:text="Name"
                     android:ems="10"
                     android:id="@+id/textDate"
-                    android:background="@color/common_google_signin_btn_text_light_disabled"
-                    android:layout_marginTop="10dp" />
+                    android:background="@android:color/white"
+                    android:layout_marginTop="10dp"
+                    android:alpha="0.85" />
             </LinearLayout>
 
             <LinearLayout
@@ -81,12 +87,14 @@
                 android:layout_margin="10dp">
 
                 <TextView
-                    android:text="Description"
+                    android:text="@string/descriptionLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/labelDescription"
                     android:textSize="20dp"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:background="@color/colorPrimary"
+                    android:alpha="0.5" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -95,8 +103,9 @@
                     android:ems="10"
                     android:id="@+id/textDescription"
                     android:layout_weight="0.25"
-                    android:background="@color/common_google_signin_btn_text_light_disabled"
-                    android:layout_marginTop="10dp" />
+                    android:background="@android:color/white"
+                    android:layout_marginTop="10dp"
+                    android:alpha="0.85" />
 
             </LinearLayout>
         </LinearLayout>
@@ -120,34 +129,50 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="10"
-                    android:id="@+id/btn1Wrapper">
+                    android:layout_weight="10">
 
-                    <ImageButton
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/btnCamera"
-                        android:background="@color/colorPrimary"
-                        app:srcCompat="@android:drawable/ic_menu_camera"
-                        android:layout_margin="10dp" />
+                        android:layout_weight="10"
+                        android:id="@+id/btn1Wrapper">
 
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnCamera"
+                            android:background="@drawable/camera_button"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:baselineAlignBottom="false"
+                            android:layout_margin="20dp" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="10"
-                    android:id="@+id/btn2Wrapper">
+                    android:layout_weight="10">
 
-                    <ImageButton
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/btnSend"
-                        android:background="@color/colorPrimary"
-                        app:srcCompat="@android:drawable/ic_dialog_email"
-                        android:layout_margin="10dp" />
+                        android:layout_weight="10"
+                        android:id="@+id/btn2Wrapper">
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnSend"
+                            android:background="@drawable/send_button"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:layout_margin="20dp" />
+                    </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

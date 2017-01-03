@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">CMCTicket2</string>
-    <string name="title_activity_mapa">CMCTicket Map</string>
+    <string name="title_activity_mapa" translatable="false">CMCTicket Map</string>
 
-   <!--Portuguese-->
-    <!-- English-->
+    <!--common language strings-->
+    <string name="passwordLabel" translatable="false">Password</string>
+    <string name="emailLabel" translatable="false">E-Mail</string>
 </resources>
