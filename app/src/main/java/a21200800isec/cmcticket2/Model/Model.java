@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
 import a21200800isec.cmcticket2.Assets.GPSTracker;
 import a21200800isec.cmcticket2.Assets.HttpClientTasks.LoginTask;
+import a21200800isec.cmcticket2.Assets.HttpClientTasks.RegisterTask;
 import a21200800isec.cmcticket2.Assets.HttpClientTasks.SendTicketTask;
 import a21200800isec.cmcticket2.Assets.Ticket;
 import a21200800isec.cmcticket2.Assets.User;
@@ -105,7 +106,9 @@ public class Model{
     public void doLogin(AsyncTaskCompleteListener listener){
         new LoginTask(listener).execute();
     }
-
+    public void doRegister(AsyncTaskCompleteListener listener){
+        new RegisterTask(listener).execute();
+    }
     public void sendTicket(AsyncTaskCompleteListener listener){
         new SendTicketTask(listener).execute();
     }

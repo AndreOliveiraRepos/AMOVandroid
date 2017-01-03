@@ -169,6 +169,13 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
             case CAMERA:
                 Log.d("DEBUG", "CHAMOU CAMARA");
                 break;
+            case REGISTER:
+                if(msg.equalsIgnoreCase("OK"))
+                    setToast("Account created. Please login now.");
+                else{
+                    setToast("Account not created, try again later!");
+                }
+                break;
 
         }
     }
