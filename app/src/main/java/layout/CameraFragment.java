@@ -37,6 +37,7 @@ import a21200800isec.cmcticket2.R;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
+//TODO: Picture Saving Task, more testing on orientation and pic quality
 
 @SuppressWarnings("deprecation")
 public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
