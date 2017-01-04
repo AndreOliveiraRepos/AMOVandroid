@@ -1,6 +1,8 @@
 package a21200800isec.cmcticket2;
 
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Build;
@@ -28,6 +30,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
+import a21200800isec.cmcticket2.Assets.HttpClientTasks.LoginTask;
 import a21200800isec.cmcticket2.Model.Model;
 import layout.CameraFragment;
 import layout.MyMapFragment;
@@ -36,8 +40,9 @@ import layout.TicketForm;
 
 
 //TODO:Languages, Socket, puts, dels from api? Code clean up
-public class Principal extends FragmentActivity implements OnMapReadyCallback, OnFragmentInteractionListener {
+public class Principal extends FragmentActivity implements OnMapReadyCallback, OnFragmentInteractionListener,AsyncTaskCompleteListener {
     //property
+    public static final String PREFS_NAME = "prefsconfig";
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
 
@@ -46,12 +51,15 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
     LoginFragment loginFrag;
     TicketForm ticketForm;
     CameraFragment cameraFragment;
+    ArrayList<Integer> listFragments;
+    Fragment currentFrag;
     //components
     ArrayList<String> sideMenuText;
     ListView mSideListView;
     DrawerLayout drawerLayout;
     ImageButton btnAddTicket;
     Toast toast;
+    ProgressDialog progressDialog;
     //model
     Model model;
 
@@ -73,10 +81,8 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         model= Model.getInstance();
         model.setContext(this);
         fragmentManager = this.getSupportFragmentManager();
-        //sMapFragment = new MyMapFragment();
-        debug=2;
-        //ticketForm = new TicketForm();
-        //ticketForm = this.getFragmentManager().findFragmentById(R.id.formTicket);
+        listFragments = new ArrayList<>();
+        debug=0;
         setLayout();
         setControllers();
 
@@ -93,18 +99,24 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         mSideListView = (ListView) findViewById(R.id.side_menu_view);
         mSideListView.setAdapter(new ArrayAdapter<String>(this, R.layout.list_text_view, sideMenuText));
         btnAddTicket = (ImageButton) findViewById(R.id.btnTicket);
-
-
-
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
+        boolean autoLogin = prefs.getBoolean("auto", false);
+        if(autoLogin){
+            //this.setCurrentFragment(LoginFragment.newInstance("",""));
+            model.getUser().setUserName(prefs.getString("username",""));
+            model.getUser().setPassword(prefs.getString("password",""));
+            new LoginTask(this).execute();
+            progressDialog = ProgressDialog.show(this, getResources().getString(R.string.loginLabel), "", true, true);
+        }
         if(debug == 1) {//debug login scree
 
             this.setCurrentFragment(LoginFragment.newInstance("",""));
         }else if(debug == 2){//map screen
-            sMapFragment = new MyMapFragment();
+            sMapFragment = sMapFragment.newInstance();
             sMapFragment.getMapAsync(this);
             setCurrentFragment(sMapFragment);
         }else if(debug == 3){  //camera screen
-            this.setCurrentFragment(cameraFragment = cameraFragment.newInstance("",""));
+            this.setCurrentFragment(CameraFragment.newInstance("",""));
         }else if (debug == 0){
             this.setCurrentFragment(LoginFragment.newInstance("",""));
         }
@@ -170,7 +182,7 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
                     //setCurrentFragment(sMapFragment);
                 break;
             case CAMERA:
-                Log.d("DEBUG", "CHAMOU CAMARA");
+                setCurrentFragment(CameraFragment.newInstance("",""));
                 break;
             case REGISTER:
                 if(msg.equalsIgnoreCase("OK"))
@@ -180,6 +192,20 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
                 }
                 break;
 
+        }
+    }
+
+    @Override
+    public void onTaskComplete(boolean result) {
+        //enter
+        if (progressDialog != null && result){
+            progressDialog.dismiss();
+            sMapFragment = sMapFragment.newInstance();
+            sMapFragment.getMapAsync(this);
+            setCurrentFragment(sMapFragment);
+        }else if(!result){
+            loginFrag = LoginFragment.newInstance("","");
+            setCurrentFragment(loginFrag);
         }
     }
 
@@ -194,20 +220,17 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
 
     private void setCurrentFragment(Fragment frag) {
 
-        /*TicketForm ticketForm= new TicketForm();
-        LoginFragment loginFrag = new LoginFragment();*/
+
 
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragContainer, frag);
-
+        currentFrag = frag;
 
 
 
 
         transaction.commit();
     }
-
-
 
 
     @Override
@@ -238,8 +261,19 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
         //kill app our change to map
+
+        if(currentFrag instanceof LoginFragment) {
+            super.onBackPressed();
+        }else if(currentFrag instanceof CameraFragment){
+            setCurrentFragment(ticketForm);
+        }else if(currentFrag instanceof TicketForm){
+            sMapFragment = sMapFragment.newInstance();
+            sMapFragment.getMapAsync(this);
+            setCurrentFragment(sMapFragment);
+        }
+
     }
 
     public void setToast(String message){

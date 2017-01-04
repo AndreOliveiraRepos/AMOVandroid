@@ -31,12 +31,14 @@ public class Model{
     private Context context;
     private GPSTracker tracker;
     private GoogleMap mapa;
+    private boolean login;
 
 
     private Model() {
         //this.context = context;
         /**/
         this.user = new User();
+        this.login = false;
 
     }
     public static Model getInstance(){
@@ -118,5 +120,13 @@ public class Model{
 
     public Context getContext() {
         return context;
+    }
+
+    public boolean isLogin() {
+        return login;
+    }
+
+    public void setLogin(boolean login) {
+        this.login = login;
     }
 }

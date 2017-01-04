@@ -4,177 +4,234 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="layout.TicketForm"
-    android:id="@+id/formTicket"
-    android:background="@mipmap/bckimageedit">
-
+    android:id="@+id/formTicket">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="1">
+        android:id="@+id/mainContainer"
+        android:background="@color/mainBackgroundColor"
+        android:backgroundTintMode="src_over">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:id="@+id/formContainer"
-            android:background="@drawable/layout_border_rounded"
-            android:layout_margin="10dp">
+            android:layout_weight="0.35">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.33"
-                android:layout_margin="10dp">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:background="@mipmap/logo"
+                android:layout_gravity="center_vertical|center_horizontal|center"
+                android:layout_marginTop="20dp">
 
-                <TextView
-                    android:text="@string/locationLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/labelLocation"
-                    android:textColor="@android:color/black"
-                    android:textSize="20dp"
-                    android:background="@color/colorPrimary"
-                    android:alpha="0.5" />
+            </FrameLayout>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="text|textPersonName"
-                    android:ems="10"
-                    android:id="@+id/textLocation"
-                    android:background="@android:color/white"
-                    android:layout_marginTop="10dp"
-                    android:alpha="0.85" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.33"
-                android:layout_margin="10dp">
-
-                <TextView
-                    android:text="@string/dateLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/labelDate"
-                    android:textColor="@android:color/black"
-                    android:textSize="20dp"
-                    android:background="@color/colorPrimary"
-                    android:alpha="0.5" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:id="@+id/textDate"
-                    android:background="@android:color/white"
-                    android:layout_marginTop="10dp"
-                    android:alpha="0.85" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.33"
-                android:layout_margin="10dp">
-
-                <TextView
-                    android:text="@string/descriptionLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/labelDescription"
-                    android:textSize="20dp"
-                    android:textColor="@android:color/black"
-                    android:background="@color/colorPrimary"
-                    android:alpha="0.5" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:id="@+id/textDescription"
-                    android:layout_weight="0.25"
-                    android:background="@android:color/white"
-                    android:layout_marginTop="10dp"
-                    android:alpha="0.85" />
-
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="0.5"
-            android:layout_weight="0.75"
-            android:id="@+id/btnGroup">
+            android:layout_weight="0.35">
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="10"
-                android:id="@+id/btnContainer">
+                android:background="@mipmap/novologo"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="50dp"
+                android:id="@+id/logoLayout"
+                android:alpha="0.5">
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:id="@+id/formContainer"
+        android:background="@drawable/layout_border_rounded"
+        android:layout_margin="10dp"
+        android:alpha="0.95">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:layout_margin="10dp"
+            android:background="@drawable/layout_border_rectangular">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/labelLocation"
+                android:textColor="@color/mainFontColor"
+                android:textSize="14sp"
+                android:background="@color/colorPrimary"
+                android:text="@string/locationLabel"
+                android:padding="5dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text|textPersonName"
+                android:ems="10"
+                android:id="@+id/textLocation"
+                android:background="@android:color/white"
+                android:alpha="0.85"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:layout_margin="10dp"
+            android:background="@drawable/layout_border_rectangular">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/labelDate"
+                android:textColor="@color/mainFontColor"
+                android:textSize="14sp"
+                android:background="@color/colorPrimary"
+                android:text="@string/dateLabel"
+                android:padding="5dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType=""
+                android:ems="10"
+                android:id="@+id/textDate"
+                android:background="@android:color/white"
+                android:layout_marginTop="5dp"
+                android:alpha="0.85" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:layout_margin="10dp"
+            android:background="@drawable/layout_border_rectangular">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/labelDescription"
+                android:textSize="14sp"
+                android:textColor="@color/mainFontColor"
+                android:background="@color/colorPrimary"
+                android:text="@string/descriptionLabel"
+                android:padding="5dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/textDescription"
+                android:layout_weight="0.25"
+                android:background="@android:color/white"
+                android:layout_marginTop="10dp"
+                android:alpha="0.85"
+                android:layout_margin="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="0.5"
+                android:layout_weight="0.75"
+                android:id="@+id/btnGroup">
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="10">
+                    android:layout_weight="10"
+                    android:id="@+id/btnContainer">
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="10"
-                        android:id="@+id/btn1Wrapper">
+                        android:layout_weight="10">
 
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/btnCamera"
-                            android:background="@drawable/camera_button"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            android:baselineAlignBottom="false"
-                            android:layout_margin="20dp" />
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10"
+                            android:id="@+id/btn1Wrapper">
 
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/btnCamera"
+                                android:background="@drawable/camera_button"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:baselineAlignBottom="false"
+                                android:contentDescription="" />
+
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="10">
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="10"
-                        android:id="@+id/btn2Wrapper">
+                        android:layout_weight="10">
 
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/btnSend"
-                            android:background="@drawable/send_button"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            android:layout_margin="20dp" />
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10"
+                            android:id="@+id/btn2Wrapper">
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/btnSend"
+                                android:background="@drawable/send_button"
+                                android:layout_gravity="center_vertical|center_horizontal" />
+                        </LinearLayout>
                     </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
+
 </FrameLayout>

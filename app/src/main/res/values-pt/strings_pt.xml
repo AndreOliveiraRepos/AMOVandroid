@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CMCTicket2</string>
+
 
     <!--buttons-->
     <string name="btnSendString">Enviar</string>

@@ -1,5 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,14 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mainContainer"
-        android:background="@mipmap/bckimageedit"
-        android:backgroundTintMode="src_over">
+        android:background="@color/mainBackgroundColor"
+        android:backgroundTintMode="src_over"
+        android:alpha="1">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.35">
+            android:layout_weight="0.35"
+            android:alpha="1">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -37,23 +39,28 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.35"></LinearLayout>
+            android:layout_weight="0.35"
+            android:alpha="1">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/novologo"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="50dp"
+                android:id="@+id/logoLayout"
+                android:alpha="0.5">
+
+            </FrameLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.33">
+            android:layout_weight="0.33"
+            android:alpha="1">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/novologo"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginTop="50dp"
-                android:id="@+id/logoLayout">
-
-            </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>
@@ -63,21 +70,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/overlayLoginContainer"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:alpha="0.75">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.4">
+            android:layout_weight="0.4"
+            android:background="@drawable/layout_border_rectangular">
 
-            <Button
-                android:text="Debugger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnDebugger"
-                android:layout_gravity="center_vertical|center_horizontal|center"
-                android:layout_margin="50dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -85,118 +87,128 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
-            android:alpha="2"
-            android:backgroundTint="@android:color/white"
-            android:background="@android:drawable/screen_background_light_transparent">
-
-            <TextView
-                android:text="Username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView"
-                android:textColor="@color/mainFontColor"
-                android:layout_margin="10dp"
-                android:paddingLeft="10dp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:ems="10"
-                android:id="@+id/txtusername"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-
-                android:paddingLeft="10dp"
-                android:alpha="0.7"
-                android:background="@android:color/background_light"
-                android:textSize="24dp" />
-
-            <TextView
-                android:text="Password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView2"
-                android:layout_margin="10dp"
-                android:alpha="255"
-                android:textColor="@color/mainFontColor"
-                android:paddingLeft="10dp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/txtpassword"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="@android:color/white"
-                android:paddingLeft="10dp"
-                android:background="@android:color/background_light"
-                android:alpha="0.7"
-                android:textSize="24dp" />
-
-            <TextView
-                android:text="Confirm Password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/cfpwdView"
-                android:textColor="@color/mainFontColor"
-                android:paddingLeft="10dp"
-                android:layout_margin="10dp"
-                android:visibility="invisible" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/confPassText"
-
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:paddingLeft="10dp"
-                android:visibility="invisible"
-                android:alpha="0.7"
-                android:background="@android:color/background_light"
-                android:textSize="24dp" />
+            android:background="@drawable/layout_border_rectangular">
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="0.25">
+
+                <TextView
+                    android:text="@string/userNameLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView"
+                    android:textColor="@color/mainFontColor" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/txtusername"
+                    android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
+                    android:background="@drawable/layout_border_rectangular"
+                    android:textSize="18sp"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25">
+
+                <TextView
+                    android:text="@string/passwordLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView2"
+                    android:alpha="255"
+                    android:textColor="@color/mainFontColor" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/txtpassword"
+                    android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled"
+                    android:background="@drawable/layout_border_rectangular"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25">
+
+                <TextView
+                    android:text="@string/confirmPasswordLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cfpwdView"
+                    android:textColor="@color/mainFontColor"
+                    android:visibility="invisible" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/confPassText"
+
+                    android:visibility="invisible"
+                    android:alpha="0.7"
+                    android:background="@drawable/layout_border_rectangular"
+                    android:textSize="18sp"
+                    android:backgroundTint="@color/common_google_signin_btn_text_dark_disabled" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25">
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <CheckBox
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/checkBox"
+                            android:textColorLink="?attr/colorControlNormal"
+                            android:checked="false"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/checkBox"
-                        android:layout_margin="10dp"
-                        android:textColorLink="?attr/colorControlNormal"
-                        android:checked="false"
-                        />
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5">
+
+                        <TextView
+                            android:text="Remember me"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView3"
+                            android:textColor="@color/mainFontColor"
+                            android:layout_margin="10dp"
+                            android:paddingLeft="10dp" />
+                    </LinearLayout>
+
                 </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5">
-
-                    <TextView
-                        android:text="Remember me"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView3"
-                        android:textColor="@color/mainFontColor"
-                        android:layout_margin="10dp"
-                        android:paddingLeft="10dp" />
-                </LinearLayout>
-
             </LinearLayout>
 
         </LinearLayout>
@@ -211,7 +223,8 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/layout_border_rectangular">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -240,14 +253,14 @@
                         android:layout_height="match_parent">
 
                         <Button
-                            android:text="Register"
+                            android:text="@string/btnRegisterString"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/btnRegister"
                             android:layout_weight="1" />
 
                         <Button
-                            android:text="Login"
+                            android:text="@string/btnLoginString"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/btnLogin"

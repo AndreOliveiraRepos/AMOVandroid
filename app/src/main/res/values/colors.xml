@@ -2,8 +2,11 @@
 <resources>
     <color name="colorPrimary">#bdbdbd</color>
     <color name="colorPrimaryDark">#757575</color>
-    <color name="colorAccent">#005ea6</color>
-    <color name="mainFontColor">#ffffff</color>
-    <color name="secondaryFontColor">#000000</color>
+    <color name="colorAccent">#d35e6a</color>
+    <color name="mainFontColor">#000000</color>
+    <color name="secondaryFontColor">#757575</color>
+
+    <color name="mainBackgroundColor">#fafafa</color>
+    <color name="cardBackgroundColor">#ffffff</color>
 
 </resources>

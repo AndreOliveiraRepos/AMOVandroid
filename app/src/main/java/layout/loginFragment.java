@@ -2,6 +2,7 @@ package layout;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
+import java.security.KeyStore;
 
 import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
 import a21200800isec.cmcticket2.Model.Model;
@@ -34,6 +38,7 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static final String PREFS_NAME = "prefsconfig";
     private String mParam1;
     private String mParam2;
     private Model model;
@@ -46,6 +51,8 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
     private EditText confirmpassword;
     private TextView errorView;
     private ProgressDialog progressDialog;
+    private SharedPreferences rememberLogin;
+    private CheckBox checkBox;
 
 
 
@@ -61,14 +68,6 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
     // TODO: Code Clean up, SHAREDPREFERENCES
     public static LoginFragment newInstance(String param1, String param2) {
         LoginFragment fragment = new LoginFragment();
@@ -88,14 +87,16 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
         }
         formMode = 1;
         model = Model.getInstance();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_login, container, false);
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+
+        return v;
     }
 
     @Override
@@ -127,6 +128,7 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
         btnLogin = ((Button)getView().findViewById(R.id.btnLogin));
         btnRegister = ((Button)getView().findViewById(R.id.btnRegister));
         errorView = ((TextView) getView().findViewById(R.id.errorView));
+        checkBox = ((CheckBox) getView().findViewById(R.id.checkBox));
         if(this.formMode == 1){
             getView().findViewById(R.id.overlayLoginContainer).setVisibility(View.INVISIBLE);
         }else{
@@ -140,7 +142,7 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
         clickableLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("FAZ ", "Click");
+
                     if(formMode == 1) {
                         setFormMode(2);
                         getView().findViewById(R.id.overlayLoginContainer).setVisibility(View.VISIBLE);
@@ -163,7 +165,7 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
 
                     if(username.getText().length()> 0 && password.getText().length() > 0) {
                         model.setUser(username.getText().toString(),password.getText().toString());
-                        progressDialog = ProgressDialog.show(view.getContext(), "", errorView.getText(), true, true);
+                        progressDialog = ProgressDialog.show(view.getContext(), view.getResources().getString(R.string.loginLabel), errorView.getText(), true, true);
                         model.doLogin(taskListener);
                     }else{
                         Log.d("Erro","pass e user");
@@ -232,6 +234,21 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
             if(formMode == 2){
                 progressDialog.dismiss();
                 mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.LOGIN,"OK");
+                model.setLogin(true);
+                rememberLogin = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                if(checkBox.isChecked()){
+                    SharedPreferences.Editor editor = rememberLogin.edit();
+                    editor.putBoolean("auto", true);
+                    editor.putString("username",model.getUser().getUserName());
+                    editor.putString("password",model.getUser().getPassword());
+                    editor.commit();
+                }else{
+                    SharedPreferences.Editor editor = rememberLogin.edit();
+                    editor.putBoolean("auto", false);
+
+                    editor.commit();
+
+                }
             }else if(formMode == 3){
                 progressDialog.dismiss();
                 mListener.onFragmentMessage(OnFragmentInteractionListener.FRAGMENT_TAG.REGISTER,"OK");

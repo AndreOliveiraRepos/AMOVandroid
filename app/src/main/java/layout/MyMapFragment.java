@@ -29,6 +29,12 @@ public class MyMapFragment extends SupportMapFragment {
 
     }
 
+    public static MyMapFragment newInstance() {
+        MyMapFragment fragment = new MyMapFragment();
+
+
+        return fragment;
+    }
 
     @Override
     public void onResume() {
@@ -36,19 +42,18 @@ public class MyMapFragment extends SupportMapFragment {
         //((LinearLayout)this.getView().findViewById(R.id.mapOverlay)).setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            this.finalize();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
     public void setLat(double l){this.lat = l;}
     public void setLon(double l){this.lon = l;}
 
-    public void setController(){
-        /*ImageButton btn = ((ImageButton)getView().findViewById(R.id.btnTicket));
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((LinearLayout)getView().findViewById(R.id.mapOverlay)).setVisibility(View.INVISIBLE);
-                //set new instance of ticketfragment
-                //setCurrentFragment()
-            }
-        });*/
 
-    }
 }
