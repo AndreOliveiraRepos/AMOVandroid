@@ -11,9 +11,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
 import a21200800isec.cmcticket2.Assets.GPSTracker;
-import a21200800isec.cmcticket2.Assets.HttpClientTasks.LoginTask;
-import a21200800isec.cmcticket2.Assets.HttpClientTasks.RegisterTask;
-import a21200800isec.cmcticket2.Assets.HttpClientTasks.SendTicketTask;
+import a21200800isec.cmcticket2.Assets.Tasks.LoginTask;
+import a21200800isec.cmcticket2.Assets.Tasks.RegisterTask;
+import a21200800isec.cmcticket2.Assets.Tasks.SendTicketTask;
 import a21200800isec.cmcticket2.Assets.Ticket;
 import a21200800isec.cmcticket2.Assets.User;
 
@@ -50,7 +50,7 @@ public class Model{
     }
 
     public void setUser(String u, String p){
-        this.user.setUserName(u);
+        this.user.setEmail(u);
         this.user.setPassword(p);
     }
     public User getUser(){

@@ -1,4 +1,4 @@
-package a21200800isec.cmcticket2.Assets.HttpClientTasks;
+package a21200800isec.cmcticket2.Assets.Tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -26,7 +26,7 @@ public class SendTicketTask extends AsyncTask<Void, String, Boolean> {
     private String ticketParameters;
     private AsyncTaskCompleteListener mListener;
 
-    private String apiurl = "https://microsoft-apiapp1cd90a6c784049c7bb4559183af4c343.azurewebsites.net";
+    private String apiurl = "http://10.0.2.2/API/v1";
     private String request;
     private String response;
     //private TCPConnection connection;
@@ -42,14 +42,14 @@ public class SendTicketTask extends AsyncTask<Void, String, Boolean> {
     {
         this.model = Model.getInstance();
         this.mListener = l;
-        this.ticketParameters = "descricao="+this.model.getTicket().getDescription()+"&localizacao="+this.model.getTicket().getLocation()+"&data="+this.model.getTicket().getData()+"&imagem=";
+        this.ticketParameters = "Description="+this.model.getTicket().getDescription()+"&Location="+this.model.getTicket().getLocation()+"&Date="+this.model.getTicket().getData();
     }
 
 
 
     protected Boolean doInBackground(Void... voids) {
         try {
-            url = new URL(apiurl + "/api/tickets");
+            url = new URL(apiurl + "/tickets");
             this.connection = (HttpURLConnection)url.openConnection();
 
             this.connection.setReadTimeout(10000);

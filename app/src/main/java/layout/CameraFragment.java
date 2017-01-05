@@ -1,6 +1,7 @@
 package layout;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 
 
@@ -33,6 +34,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
+import a21200800isec.cmcticket2.Assets.Tasks.PictureSaveTask;
 import a21200800isec.cmcticket2.R;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
@@ -40,12 +43,12 @@ import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 //TODO: Picture Saving Task, more testing on orientation and pic quality
 
 @SuppressWarnings("deprecation")
-public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
+public class CameraFragment extends Fragment implements SurfaceHolder.Callback,AsyncTaskCompleteListener {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    public static final int MEDIA_TYPE_IMAGE = 1;
+
 
 
     private String mParam1;
@@ -55,10 +58,12 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
     private Button btnPhoto;
     private SurfaceView surfaceView;
+    private ProgressDialog progressDialog;
 
     //camera elements
     private Camera camera;
     private static int cameraID;
+    private AsyncTaskCompleteListener mAsyncListener;
 
 
 
@@ -70,7 +75,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
 
     public CameraFragment() {
         // Required empty public constructor
-
+        mAsyncListener = this;
     }
 
 
@@ -190,23 +195,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
 
         @Override
         public void onPictureTaken(byte[] data, Camera cam) {
-
-            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-            if (pictureFile == null){
-                Log.d("DEBUG", "Error creating media file, check storage permissions: ");
-                return;
-            }
-
-            try {
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                fos.write(data);
-                fos.close();
-
-            } catch (FileNotFoundException e) {
-                Log.d("DEBUG", "File not found: " + e.getMessage());
-            } catch (IOException e) {
-                Log.d("DEBUG", "Error accessing file: " + e.getMessage());
-            }
+            progressDialog = ProgressDialog.show(getContext(), "SAVING", "", true, true);
+            new PictureSaveTask(mAsyncListener).execute(data);
         }
     };
 
@@ -262,41 +252,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
     }
 
 
-    private static Uri getOutputMediaFileUri(int type){
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
 
-    /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type){
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "CMCTicket");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
-                Log.d("CMCTicket", "failed to create directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
-
-        } else {
-            return null;
-        }
-
-        return mediaFile;
-    }
 
     private void releaseCamera(){
         if (camera != null){
@@ -408,5 +364,13 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback {
         }
 
         return(result);
+    }
+
+    @Override
+    public void onTaskComplete(boolean result) {
+        if (progressDialog!=null && result){
+            progressDialog.dismiss();
+
+        }
     }
 }

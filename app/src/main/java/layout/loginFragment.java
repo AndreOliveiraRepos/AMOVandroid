@@ -68,7 +68,7 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
         // Required empty public constructor
     }
 
-    // TODO: Code Clean up, SHAREDPREFERENCES
+    // TODO: Code Clean up
     public static LoginFragment newInstance(String param1, String param2) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
@@ -238,13 +238,16 @@ public class LoginFragment extends Fragment implements AsyncTaskCompleteListener
                 rememberLogin = getActivity().getSharedPreferences(PREFS_NAME, 0);
                 if(checkBox.isChecked()){
                     SharedPreferences.Editor editor = rememberLogin.edit();
+                    editor.clear();
+                    editor.commit();
                     editor.putBoolean("auto", true);
-                    editor.putString("username",model.getUser().getUserName());
+                    editor.putString("email",model.getUser().getEmail());
                     editor.putString("password",model.getUser().getPassword());
                     editor.commit();
+                    //checkBox.setChecked(false);
                 }else{
                     SharedPreferences.Editor editor = rememberLogin.edit();
-                    editor.putBoolean("auto", false);
+                    editor.clear();
 
                     editor.commit();
 

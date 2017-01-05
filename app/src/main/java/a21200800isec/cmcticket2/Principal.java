@@ -12,13 +12,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,7 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 import a21200800isec.cmcticket2.Assets.AsyncTaskCompleteListener;
-import a21200800isec.cmcticket2.Assets.HttpClientTasks.LoginTask;
+import a21200800isec.cmcticket2.Assets.Tasks.LoginTask;
 import a21200800isec.cmcticket2.Model.Model;
 import layout.CameraFragment;
 import layout.MyMapFragment;
@@ -101,15 +98,10 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         btnAddTicket = (ImageButton) findViewById(R.id.btnTicket);
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
         boolean autoLogin = prefs.getBoolean("auto", false);
-        if(autoLogin){
-            //this.setCurrentFragment(LoginFragment.newInstance("",""));
-            model.getUser().setUserName(prefs.getString("username",""));
-            model.getUser().setPassword(prefs.getString("password",""));
-            new LoginTask(this).execute();
-            progressDialog = ProgressDialog.show(this, getResources().getString(R.string.loginLabel), "", true, true);
-        }
-        if(debug == 1) {//debug login scree
 
+        if(debug == 1) {//debug login scree
+            prefs = getSharedPreferences(PREFS_NAME, 0);
+            prefs.edit().clear().commit();
             this.setCurrentFragment(LoginFragment.newInstance("",""));
         }else if(debug == 2){//map screen
             sMapFragment = sMapFragment.newInstance();
@@ -118,6 +110,13 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
         }else if(debug == 3){  //camera screen
             this.setCurrentFragment(CameraFragment.newInstance("",""));
         }else if (debug == 0){
+            if(autoLogin){
+                //this.setCurrentFragment(LoginFragment.newInstance("",""));
+                model.getUser().setEmail(prefs.getString("email",""));
+                model.getUser().setPassword(prefs.getString("password",""));
+                new LoginTask(this).execute();
+                progressDialog = ProgressDialog.show(this, getResources().getString(R.string.loginLabel), "", true, true);
+            }
             this.setCurrentFragment(LoginFragment.newInstance("",""));
         }
 
@@ -204,6 +203,12 @@ public class Principal extends FragmentActivity implements OnMapReadyCallback, O
             sMapFragment.getMapAsync(this);
             setCurrentFragment(sMapFragment);
         }else if(!result){
+            SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear();
+            editor.commit();
+            progressDialog.dismiss();
+            //getSupportFragmentManager().beginTransaction().remove(loginFrag).commit();
             loginFrag = LoginFragment.newInstance("","");
             setCurrentFragment(loginFrag);
         }

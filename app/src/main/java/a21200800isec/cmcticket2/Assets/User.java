@@ -20,7 +20,6 @@ public class User {
         this.authToken = "";
         this.requestJSON = "";
         this.Email = "";
-        this.PhoneNumber = "";
         this.Location = "";
         this.login = false;
     }
@@ -55,14 +54,6 @@ public class User {
 
     public void setEmail(String Email) {
         this.Email = Email;
-    }
-
-    public String getPhoneNumber() {
-        return PhoneNumber;
-    }
-
-    public void setPhoneNumber(String PhoneNumber) {
-        this.PhoneNumber = PhoneNumber;
     }
 
     public String getLocation() {

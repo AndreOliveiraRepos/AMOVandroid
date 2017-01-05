@@ -1,4 +1,4 @@
-package a21200800isec.cmcticket2.Assets.HttpClientTasks;
+package a21200800isec.cmcticket2.Assets.Tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -26,7 +26,7 @@ public class LoginTask extends AsyncTask<Void, String, Boolean> {
     private String loginParameters;
     private AsyncTaskCompleteListener mListener;
 
-    private String apiurl = "https://microsoft-apiapp1cd90a6c784049c7bb4559183af4c343.azurewebsites.net";
+    private String apiurl = "http://10.0.2.2/API/v1";
     private String request;
     private String response;
     //private TCPConnection connection;
@@ -42,14 +42,14 @@ public class LoginTask extends AsyncTask<Void, String, Boolean> {
     {
         this.model = Model.getInstance();
         this.mListener = l;
-        this.loginParameters = "username="+this.model.getUser().getUserName()+"&password="+this.model.getUser().getPassword()+"&grant_type=password";
+        this.loginParameters = "Email="+this.model.getUser().getEmail()+"&Password="+this.model.getUser().getPassword()+"";
     }
 
 
 
     protected Boolean doInBackground(Void... voids) {
         try {
-            url = new URL(apiurl + "/token");
+            url = new URL(apiurl + "/login");
             this.connection = (HttpURLConnection)url.openConnection();
 
             this.connection.setReadTimeout(10000);
@@ -79,7 +79,7 @@ public class LoginTask extends AsyncTask<Void, String, Boolean> {
                 br.close();
 
                 jsonObject = new JSONObject(responseOutput.toString());
-                this.model.getUser().setAuthToken("Bearer " + jsonObject.getString("access_token"));
+                this.model.getUser().setAuthToken(jsonObject.getString("api_key"));
                 return true;
             }else{
                 return false;

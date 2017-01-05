@@ -96,7 +96,7 @@
                 android:layout_weight="0.25">
 
                 <TextView
-                    android:text="@string/userNameLabel"
+                    android:text="@string/emailLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView"

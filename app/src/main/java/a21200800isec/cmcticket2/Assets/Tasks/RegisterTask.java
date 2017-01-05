@@ -1,16 +1,13 @@
-package a21200800isec.cmcticket2.Assets.HttpClientTasks;
+package a21200800isec.cmcticket2.Assets.Tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -26,7 +23,7 @@ public class RegisterTask extends AsyncTask<Void, String, Boolean> {
     private String loginParameters;
     private AsyncTaskCompleteListener mListener;
 
-    private String apiurl = "https://microsoft-apiapp1cd90a6c784049c7bb4559183af4c343.azurewebsites.net";
+    private String apiurl = "http://10.0.2.2/API/v1";
     private String request;
     private String response;
     //private TCPConnection connection;
@@ -49,7 +46,7 @@ public class RegisterTask extends AsyncTask<Void, String, Boolean> {
 
     protected Boolean doInBackground(Void... voids) {
         try {
-            url = new URL(apiurl + "/api/account/register");
+            url = new URL(apiurl + "/register");
             this.connection = (HttpURLConnection)url.openConnection();
 
             this.connection.setReadTimeout(10000);
