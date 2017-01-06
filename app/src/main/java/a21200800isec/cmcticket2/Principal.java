@@ -36,7 +36,7 @@ import layout.LoginFragment;
 import layout.TicketForm;
 
 
-//TODO:Languages, Socket, puts, dels from api? Code clean up
+//TODO:Languages, Socket, puts, dels from api? Code clean up, remodel the register
 public class Principal extends FragmentActivity implements OnMapReadyCallback, OnFragmentInteractionListener,AsyncTaskCompleteListener {
     //property
     public static final String PREFS_NAME = "prefsconfig";
